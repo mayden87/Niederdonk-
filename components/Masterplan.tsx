@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { SectionTag } from './ui/Shared';
-import { PieChart, Zap, Maximize2 } from 'lucide-react';
+import { PieChart, Zap, Maximize2, MapPin, TreeDeciduous, Car, DoorOpen } from 'lucide-react';
 
 // --- CONFIGURATION ---
-// Prices adjusted so the total sum (when all selected) equals EXACTLY 22,325,000 € (The Exit Value)
 const buildingData: Record<string, { id: string; label: string; count: number; area: number; price: number; rent: number }> = {
   mfh1: { id: 'MFH-01', label: 'Mehrfamilienhaus 1 (Vorne)', count: 8, area: 575, price: 4337500, rent: 163200 },
   mfh2: { id: 'MFH-02', label: 'Mehrfamilienhaus 2 (Hinten)', count: 8, area: 575, price: 4337500, rent: 163200 },
@@ -29,16 +28,42 @@ const BuildingShape: React.FC<{ d: string; active: boolean; onClick: () => void;
             className="transition-all duration-500 ease-out group-hover:fill-[#D4AF37]/20 group-hover:stroke-[#D4AF37]"
             style={{ backdropFilter: 'blur(4px)' }}
         />
+        
+        {/* Label on Hover */}
+        <foreignObject x={0} y={0} width="100%" height="100%" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+           {/* Positioned manually in SVG space for simplicity, in real app calculated by centroid */}
+        </foreignObject>
     </g>
+);
+
+const AmenityPin: React.FC<{ x: number; y: number; icon: React.ReactNode; label: string; visible: boolean }> = ({ x, y, icon, label, visible }) => (
+  <g 
+    transform={`translate(${x},${y})`} 
+    className={`transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+  >
+    <circle r="16" fill="#1A1A1A" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+    <g transform="translate(-8, -8) scale(0.65)" className="text-[#C5A028]">
+       {icon}
+    </g>
+    <circle r="16" fill="transparent" className="cursor-pointer group">
+       <title>{label}</title>
+    </circle>
+  </g>
 );
 
 const Masterplan: React.FC = () => {
   const [selected, setSelected] = useState<string[]>(Object.keys(buildingData));
   const [equity, setEquity] = useState(30);
   const [interest, setInterest] = useState(3.5);
+  
+  // Amenity Toggles
+  const [showAmenities, setShowAmenities] = useState<{parking: boolean; green: boolean; access: boolean}>({
+    parking: false, green: false, access: false
+  });
 
   const toggle = (id: string) => setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
-  
+  const toggleAmenity = (key: keyof typeof showAmenities) => setShowAmenities(prev => ({ ...prev, [key]: !prev[key] }));
+
   const metrics = useMemo(() => {
     let p = 0, a = 0, r = 0, u = 0;
     selected.forEach(k => { const b = buildingData[k]; p += b.price; a += b.area; r += b.rent; u += b.count; });
@@ -48,31 +73,42 @@ const Masterplan: React.FC = () => {
   }, [selected, equity, interest]);
 
   return (
-    <section id="masterplan" className="relative w-full py-20">
+    <section id="masterplan" className="relative w-full py-20 md:py-32">
        
        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* HEADER (Top Left aligned with grid) */}
-          <div className="lg:col-span-12 mb-12 flex flex-col md:flex-row justify-between items-end gap-8">
+          {/* HEADER */}
+          <div className="lg:col-span-12 mb-8 flex flex-col md:flex-row justify-between items-end gap-8">
              <div className="pl-6 border-l border-[#D4AF37]">
-                <SectionTag>Lageplan</SectionTag>
+                <SectionTag>05. Architektur & Lage</SectionTag>
                 <h2 className="text-4xl md:text-7xl font-serif font-medium text-white mt-4 md:mt-6 mb-6 leading-none">
                   Living <br />
                   <span className="text-[#D4AF37] italic">Matrix</span>
                 </h2>
                 <p className="text-base text-text-muted leading-7 max-w-md font-light">
-                  Interaktive Gesamtübersicht der Baukörper. Wählen Sie die Einheiten für Ihre individuelle Kalkulation.
+                  Interaktive Gesamtübersicht. Aktivieren Sie die Ebenen für Details zu Infrastruktur und Baukörpern.
                 </p>
              </div>
              
-             {/* Controls */}
-             <div className="flex gap-4">
+             {/* Filter Toggles */}
+             <div className="flex flex-wrap gap-2">
                 <button 
-                  onClick={() => setSelected(Object.keys(buildingData))} 
-                  className="group px-6 py-3 rounded-full border border-white/10 hover:border-[#D4AF37] bg-white/5 backdrop-blur-md transition-all flex items-center gap-2"
+                  onClick={() => toggleAmenity('green')}
+                  className={`px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${showAmenities.green ? 'bg-[#C5A028] text-black border-[#C5A028]' : 'bg-white/5 text-white border-white/10 hover:border-white/30'}`}
                 >
-                  <Maximize2 className="w-4 h-4 text-white group-hover:text-[#D4AF37]" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-white">Gesamtansicht</span>
+                  <TreeDeciduous className="w-3 h-3" /> Grünflächen
+                </button>
+                <button 
+                  onClick={() => toggleAmenity('parking')}
+                  className={`px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${showAmenities.parking ? 'bg-[#C5A028] text-black border-[#C5A028]' : 'bg-white/5 text-white border-white/10 hover:border-white/30'}`}
+                >
+                  <Car className="w-3 h-3" /> Zufahrt & TG
+                </button>
+                 <button 
+                  onClick={() => toggleAmenity('access')}
+                  className={`px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${showAmenities.access ? 'bg-[#C5A028] text-black border-[#C5A028]' : 'bg-white/5 text-white border-white/10 hover:border-white/30'}`}
+                >
+                  <DoorOpen className="w-3 h-3" /> Eingänge
                 </button>
              </div>
           </div>
@@ -93,7 +129,7 @@ const Masterplan: React.FC = () => {
              {/* 3. INTERACTIVE SVG LAYER */}
              <svg viewBox="0 0 800 600" className="absolute inset-0 w-full h-full drop-shadow-2xl">
                  
-                 {/* The Red Property Line (Subtle Pulse) */}
+                 {/* Property Line */}
                  <path 
                     d="M 50 100 L 750 100 L 750 500 L 50 500 Z" 
                     fill="none" 
@@ -101,29 +137,39 @@ const Masterplan: React.FC = () => {
                     strokeWidth="1.5" 
                     strokeDasharray="10 5"
                     className="opacity-60"
-                 >
-                    <animate attributeName="stroke-dashoffset" from="100" to="0" dur="20s" repeatCount="indefinite" />
-                 </path>
+                 />
 
-                 {/* ACCESS ROAD */}
-                 <path d="M 400 300 L 400 600" stroke="white" strokeWidth="40" strokeOpacity="0.05" strokeLinecap="round" />
+                 {/* ACCESS ROAD (Hidden unless parking selected) */}
+                 <path 
+                    d="M 400 300 L 400 600" 
+                    stroke="#C5A028" 
+                    strokeWidth="40" 
+                    strokeOpacity={showAmenities.parking ? 0.2 : 0} 
+                    strokeLinecap="round" 
+                    className="transition-all duration-500"
+                 />
 
-                 {/* MFH 1 */}
+                 {/* Green Zones (Hidden unless green selected) */}
+                 <path 
+                    d="M 60 110 L 740 110 L 740 140 L 60 140 Z" 
+                    fill="#4ade80" 
+                    fillOpacity={showAmenities.green ? 0.2 : 0} 
+                    className="transition-all duration-500"
+                 />
+
+                 {/* BUILDINGS */}
                  <BuildingShape 
                     d="M 100 320 L 300 320 L 300 420 L 100 420 Z" 
                     active={selected.includes('mfh1')} 
                     onClick={() => toggle('mfh1')}
                     label="MFH I"
                  />
-                 
-                 {/* MFH 2 */}
                  <BuildingShape 
                     d="M 500 320 L 700 320 L 700 420 L 500 420 Z" 
                     active={selected.includes('mfh2')} 
                     onClick={() => toggle('mfh2')}
                     label="MFH II"
                  />
-
                  <g>
                     <BuildingShape 
                         d="M 120 150 L 320 150 L 320 230 L 120 230 Z" 
@@ -139,25 +185,19 @@ const Masterplan: React.FC = () => {
                     />
                  </g>
 
-                 {/* Floating Labels */}
-                 <text x="200" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">MFH I</text>
-                 <text x="600" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">MFH II</text>
-                 <text x="220" y="190" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">9 DHH</text>
-                 <text x="580" y="190" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">7 RH</text>
+                 {/* AMENITY PINS */}
+                 <AmenityPin x={400} y={550} icon={<Car width="16" height="16" fill="currentColor" />} label="TG Zufahrt" visible={showAmenities.parking} />
+                 <AmenityPin x={400} y={125} icon={<TreeDeciduous width="16" height="16" fill="currentColor" />} label="Privatpark" visible={showAmenities.green} />
+                 <AmenityPin x={200} y={310} icon={<DoorOpen width="16" height="16" fill="currentColor" />} label="Eingang MFH 1" visible={showAmenities.access} />
+                 <AmenityPin x={600} y={310} icon={<DoorOpen width="16" height="16" fill="currentColor" />} label="Eingang MFH 2" visible={showAmenities.access} />
+
+                 {/* Static Labels */}
+                 <text x="200" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none" style={{textShadow: '0 2px 4px black'}}>MFH I</text>
+                 <text x="600" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none" style={{textShadow: '0 2px 4px black'}}>MFH II</text>
+                 <text x="220" y="190" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none" style={{textShadow: '0 2px 4px black'}}>9 DHH</text>
+                 <text x="580" y="190" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none" style={{textShadow: '0 2px 4px black'}}>7 RH</text>
 
              </svg>
-             
-             {/* Legend Overlay */}
-             <div className="absolute bottom-6 left-6 flex items-center gap-6 px-6 py-3 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
-                 <div className="flex items-center gap-2 text-[10px] text-white font-bold uppercase tracking-wider">
-                    <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
-                    Ausgewählt
-                 </div>
-                 <div className="flex items-center gap-2 text-[10px] text-white/50 font-bold uppercase tracking-wider">
-                    <span className="w-2 h-2 rounded-full border border-white/30" />
-                    Verfügbar
-                 </div>
-             </div>
           </div>
 
           {/* RIGHT: DASHBOARD */}
@@ -194,6 +234,12 @@ const Masterplan: React.FC = () => {
              {/* 2. CALCULATOR */}
              <div className="relative rounded-3xl p-10 border border-white/[0.15] bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]">
                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-3xl" />
+                 
+                 <div className="flex items-center gap-2 mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
+                    <span className="text-[9px] uppercase tracking-widest text-text-muted">Annahmen (Indikativ)</span>
+                 </div>
+
                 <div className="space-y-6 relative z-10">
                     <div className="space-y-3">
                         <div className="flex justify-between text-[10px] font-bold text-text-muted uppercase tracking-wider">

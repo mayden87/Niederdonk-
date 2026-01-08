@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { X } from 'lucide-react';
 
 // --- ANIMATION WRAPPER ---
 // Uses a simpler, smoother threshold for "organic" reveal
@@ -111,3 +112,55 @@ export const MetricRow: React.FC<{ label: string; value: string; border?: boolea
     <span className="text-white font-serif text-lg md:text-xl tracking-tight">{value}</span>
   </div>
 );
+
+// --- NEW: DRAWER (SIDE PANEL) ---
+export const Drawer: React.FC<{ isOpen: boolean; onClose: () => void; children: React.ReactNode; title?: string }> = ({ isOpen, onClose, children, title }) => {
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className={`fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        onClick={onClose}
+      />
+      
+      {/* Panel */}
+      <div className={`fixed top-0 right-0 bottom-0 z-[101] w-full md:w-[600px] bg-[#0A0A0A] border-l border-white/10 shadow-2xl transition-transform duration-500 cubic-bezier(0.22, 1, 0.36, 1) ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+         <div className="h-full overflow-y-auto custom-scrollbar p-8 md:p-12 relative">
+            <div className="flex items-center justify-between mb-12">
+               {title && <h3 className="font-serif text-2xl text-white">{title}</h3>}
+               <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors group">
+                  <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" />
+               </button>
+            </div>
+            {children}
+         </div>
+      </div>
+    </>
+  );
+};
+
+// --- NEW: TABS ---
+export const Tabs: React.FC<{ tabs: string[]; activeTab: string; onChange: (tab: string) => void }> = ({ tabs, activeTab, onChange }) => {
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-2 mb-8 no-scrollbar">
+      {tabs.map(tab => (
+        <button
+          key={tab}
+          onClick={() => onChange(tab)}
+          className={`px-6 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold border transition-all duration-300 whitespace-nowrap
+            ${activeTab === tab 
+              ? 'bg-[#C5A028] text-black border-[#C5A028]' 
+              : 'bg-white/5 text-white/60 border-white/5 hover:border-white/20 hover:text-white'
+            }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+  );
+};

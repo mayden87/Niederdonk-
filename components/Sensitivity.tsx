@@ -1,216 +1,264 @@
-import React from 'react';
-import { SectionTag } from './ui/Shared';
-import { TrendingDown, TrendingUp, ShieldCheck, AlertTriangle, Zap } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { SectionTag, UnifiedCard } from './ui/Shared';
+import { TrendingDown, TrendingUp, ShieldCheck, AlertTriangle, Zap, RotateCcw, Sliders } from 'lucide-react';
 
-const ScenarioCard: React.FC<{
-  title: string;
-  subtitle: string;
-  ebt: string;
-  roi: string;
-  delta?: string; // e.g. "-6.7%"
-  isBasis?: boolean;
-  type?: 'risk' | 'cost' | 'neutral';
-}> = ({ title, subtitle, ebt, roi, delta, isBasis = false, type = 'neutral' }) => {
-  // Determine colors based on type
-  const accentColor = isBasis ? 'text-[#D4AF37]' : type === 'risk' ? 'text-orange-200' : 'text-blue-200';
-  const barColor = isBasis ? 'bg-[#D4AF37]' : type === 'risk' ? 'bg-orange-400' : 'bg-blue-400';
-  const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)]' : 'shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]';
-  const borderColor = isBasis ? 'border-[#D4AF37]/30' : 'border-white/[0.15]';
-  const bgClass = isBasis ? 'bg-[#D4AF37]/5' : 'bg-white/[0.03]';
-  
-  // GLASS STYLE UPDATE: Brighter, more blur
-  const cardClasses = `relative group p-8 rounded-3xl border backdrop-blur-2xl transition-all duration-500 hover:border-white/30 ${bgClass} ${borderColor} ${glowColor} flex flex-col justify-between h-full`;
+const ControlSlider: React.FC<{
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  onChange: (val: number) => void;
+  defaultValue: number;
+}> = ({ label, value, min, max, step, unit, onChange, defaultValue }) => {
+    const percentage = ((value - min) / (max - min)) * 100;
+    const isDefault = value === defaultValue;
 
-  // Parse ROI for bar width (max assumed 40%)
-  const roiNum = parseFloat(roi.replace(',', '.').replace('%', ''));
-  const barWidth = Math.min(100, (roiNum / 40) * 100);
-
-  // EBT Bar calculation (max 7M)
-  const ebtValue = parseFloat(ebt.replace(/\./g, '').replace(' €', ''));
-  const ebtWidth = Math.min(100, (ebtValue / 7000000) * 100);
-
-  return (
-    <div className={cardClasses}>
-      {/* Glossy Sheen */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-3xl" />
-      
-      {/* Background Gradient for Basis */}
-      {isBasis && (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-transparent opacity-100 rounded-3xl pointer-events-none" />
-      )}
-
-      {/* Header */}
-      <div className="flex justify-between items-start mb-8 relative z-10">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className={`w-1.5 h-1.5 rounded-full ${isBasis ? 'bg-[#D4AF37] animate-pulse' : 'bg-white/20'}`}></span>
-            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${isBasis ? 'text-[#D4AF37]' : 'text-text-muted'}`}>
-                {title}
-            </span>
-          </div>
-          <h4 className="text-white font-serif text-xl tracking-wide">{subtitle}</h4>
-        </div>
-        {delta && (
-            <div className={`px-2 py-1 rounded text-[10px] font-bold bg-white/5 border border-white/5 ${type === 'risk' ? 'text-red-300' : 'text-white/60'}`}>
-                {delta}
+    return (
+        <div className="space-y-4">
+            <div className="flex justify-between items-end">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">{label}</label>
+                <div className={`font-mono text-sm ${isDefault ? 'text-white' : 'text-[#D4AF37]'} transition-colors`}>
+                    {value.toLocaleString()} <span className="text-[10px] opacity-60">{unit}</span>
+                </div>
             </div>
-        )}
-      </div>
-
-      {/* Metrics */}
-      <div className="space-y-8 relative z-10 mt-auto">
-        {/* EBT Metric */}
-        <div>
-           <div className="flex justify-between items-end mb-2">
-             <span className="text-[10px] text-text-muted/60 font-bold uppercase tracking-wider">Ergebnis (EBT)</span>
-             <span className="text-white/90 text-sm font-medium tabular-nums">{ebt}</span>
-           </div>
-           <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-              <div style={{ width: `${ebtWidth}%` }} className={`h-full rounded-full opacity-60 ${barColor} transition-all duration-1000`}></div>
-           </div>
+            <div className="relative h-2 bg-white/10 rounded-full group cursor-pointer">
+                {/* Track */}
+                <div 
+                    className="absolute top-0 bottom-0 left-0 bg-[#D4AF37] rounded-full opacity-30 group-hover:opacity-100 transition-opacity" 
+                    style={{ width: `${percentage}%` }}
+                />
+                {/* Thumb */}
+                <div 
+                     className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg transition-transform hover:scale-125 z-10"
+                     style={{ left: `calc(${percentage}% - 8px)` }}
+                />
+                <input 
+                    type="range" 
+                    min={min} max={max} step={step} 
+                    value={value} 
+                    onChange={(e) => onChange(parseFloat(e.target.value))}
+                    className="absolute inset-0 w-full opacity-0 cursor-pointer z-20"
+                />
+            </div>
         </div>
-
-        {/* ROI Metric - Main Highlight */}
-        <div>
-           <div className="flex justify-between items-end mb-2">
-             <span className="text-[10px] text-text-muted/60 font-bold uppercase tracking-wider">Rendite (EBT/GKI)</span>
-             <span className={`text-3xl font-serif font-bold ${accentColor} leading-none`}>{roi}</span>
-           </div>
-            {/* ROI Bar */}
-           <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden relative">
-              <div 
-                style={{ width: `${barWidth}%` }} 
-                className={`h-full ${barColor} transition-all duration-1000 ease-out relative`}
-              >
-              </div>
-              {/* Target Marker at 34.9% for non-basis cards */}
-              {!isBasis && (
-                 <div className="absolute top-0 bottom-0 w-0.5 bg-white/10 z-20" style={{ left: `${(34.9/40)*100}%` }} title="Basis-Referenz"></div>
-              )}
-           </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 const Sensitivity: React.FC = () => {
-  return (
-    <section id="sensitivity" className="py-10 md:py-20 relative">
+    // --- STATE ---
+    // Base assumptions
+    const AREA = 3250; // m²
+    const TG_PRICE_TOTAL = 1200000;
+    const LAND_COST = 4250000;
+    const PURCHASE_COSTS = 425000;
+    const SPECIAL_CIVIL = 450000;
+    const SOFT_COSTS = 1719000;
+
+    // Controls - Aligned defaults to the main memo (6500 price, 30% equity)
+    const [salesPrice, setSalesPrice] = useState(6500); // €/m²
+    const [buildCost, setBuildCost] = useState(2800); // €/m²
+    const [interestRate, setInterestRate] = useState(3.5); // %
+    const [equityShare, setEquityShare] = useState(30); // %
+
+    // --- CALCULATIONS ---
+    const financials = useMemo(() => {
+        // Revenue
+        const revenueLiving = AREA * salesPrice;
+        const revenueTotal = revenueLiving + TG_PRICE_TOTAL;
+
+        // Costs
+        const buildCostTotal = AREA * buildCost; // Simplified KG300+400 approx
+        const hardCosts = LAND_COST + PURCHASE_COSTS + SPECIAL_CIVIL + buildCostTotal + SOFT_COSTS;
         
-      <div className="mb-10 md:mb-20 max-w-4xl relative z-10">
-        <SectionTag>06. Sensitivität</SectionTag>
-        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4 md:mb-6">
-          Robustheits<span className="text-white/20">analyse</span>
-        </h2>
-        <p className="text-base md:text-lg text-text-muted font-light leading-relaxed max-w-2xl">
-            Ein Stresstest des Geschäftsmodells belegt: Selbst bei signifikanten Marktschwankungen 
-            (Kostensteigerung oder Erlösminderung) bleibt die Projektrendite im attraktiven zweistelligen Bereich.
-        </p>
+        // Financing
+        const loanAmount = hardCosts * (1 - equityShare / 100);
+        // Approx interest for project duration (simplified 1.5 years avg draw)
+        const interestCost = loanAmount * (interestRate / 100) * 1.5; 
+
+        const totalInvest = hardCosts + interestCost;
+        const ebt = revenueTotal - totalInvest;
+        const margin = (ebt / totalInvest) * 100;
+
+        // Break Even (What sales price makes EBT 0?)
+        // 0 = (BreakEvenPrice * AREA + TG) - (NonBuildCosts + (BreakEvenPrice logic complexity ignored, simplified to fixed costs))
+        // Simplification: TotalCost / Area (minus TG revenue offset)
+        const breakEvenPrice = (totalInvest - TG_PRICE_TOTAL) / AREA;
+
+        return {
+            revenueTotal,
+            buildCostTotal,
+            interestCost,
+            totalInvest,
+            ebt,
+            margin,
+            breakEvenPrice
+        };
+    }, [salesPrice, buildCost, interestRate, equityShare]);
+
+    const resetDefaults = () => {
+        setSalesPrice(6500);
+        setBuildCost(2800);
+        setInterestRate(3.5);
+        setEquityShare(30);
+    };
+
+  return (
+    <section id="sensitivity" className="relative py-20 md:py-32">
+        
+      <div className="mb-10 md:mb-20 flex flex-col md:flex-row justify-between items-end gap-6 relative z-10">
+        <div className="max-w-3xl">
+            <SectionTag>07. Sensitivität</SectionTag>
+            <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4">
+            Investment <span className="text-[#D4AF37]">Controls</span>
+            </h2>
+            <p className="text-base md:text-lg text-text-muted font-light leading-relaxed max-w-xl">
+                Simulieren Sie verschiedene Marktszenarien in Echtzeit.
+                Überprüfen Sie die Robustheit des Modells gegenüber Kostensteigerungen oder Zinsänderungen.
+            </p>
+        </div>
+        
+        <button 
+            onClick={resetDefaults}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 text-[10px] uppercase tracking-widest text-text-muted hover:text-white transition-all"
+        >
+            <RotateCcw className="w-3 h-3" />
+            Reset Defaults
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
         
-        {/* COLUMN 1: BASIS & CONCLUSION */}
-        <div className="flex flex-col gap-6 h-full">
-            {/* Header Alignment Spacer */}
-            <div className="flex items-center gap-2 mb-1 px-2 opacity-60 h-5">
-                <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-                <span className="text-[10px] uppercase tracking-widest font-bold">Basis-Referenz</span>
-            </div>
-
-            <div className="flex-1">
-                <ScenarioCard 
-                    title="Case 01: Ziel-Szenario" 
-                    subtitle="Planungs-Basis" 
-                    ebt="5.781.000 €" 
-                    roi="34,9%" 
-                    isBasis={true}
-                />
-            </div>
-            
-            {/* Key Takeaway Box - Updated Glossy Style */}
-            <div className="flex-1 p-8 rounded-3xl border border-white/[0.15] bg-white/[0.03] backdrop-blur-2xl flex flex-col justify-center relative overflow-hidden group min-h-[220px] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] hover:bg-white/[0.05] transition-colors">
-                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
-                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-                <h5 className="text-white font-serif text-2xl mb-4 relative z-10">Fazit & Bewertung</h5>
-                <p className="text-sm text-text-muted leading-relaxed font-light mb-6 relative z-10">
-                    Das Projekt verfügt über einen außerordentlich hohen Sicherheitspuffer. 
-                    Der Break-Even-Point liegt weit unterhalb aktueller Marktniveaus.
-                </p>
-                <div className="flex items-center gap-3 relative z-10 mt-auto">
-                    <div className="flex h-3 w-3 relative">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">Hohe Resilienz</span>
+        {/* LEFT: CONTROLS */}
+        <div className="lg:col-span-5 h-full">
+            <UnifiedCard className="h-full bg-gradient-to-br from-[#0A0A0A] to-[#111]">
+                <div className="flex items-center gap-3 mb-8">
+                    <Sliders className="w-5 h-5 text-[#D4AF37]" />
+                    <h3 className="text-xl font-serif text-white">Parameter</h3>
                 </div>
-            </div>
+
+                <div className="space-y-10">
+                    <ControlSlider 
+                        label="Ø Verkaufspreis (Wohnen)" 
+                        value={salesPrice} min={5000} max={8500} step={50} unit="€/m²" 
+                        onChange={setSalesPrice} defaultValue={6500}
+                    />
+                    <ControlSlider 
+                        label="Ø Baukosten (KG 300+400)" 
+                        value={buildCost} min={2200} max={4000} step={50} unit="€/m²" 
+                        onChange={setBuildCost} defaultValue={2800}
+                    />
+                    <ControlSlider 
+                        label="Zinssatz (p.a.)" 
+                        value={interestRate} min={1.0} max={7.0} step={0.1} unit="%" 
+                        onChange={setInterestRate} defaultValue={3.5}
+                    />
+                     <ControlSlider 
+                        label="Eigenkapitalquote" 
+                        value={equityShare} min={0} max={100} step={5} unit="%" 
+                        onChange={setEquityShare} defaultValue={30}
+                    />
+                </div>
+
+                <div className="mt-12 p-6 rounded-2xl bg-white/5 border border-white/5 flex items-start gap-4">
+                     <AlertTriangle className="w-5 h-5 text-text-muted shrink-0 mt-0.5" />
+                     <p className="text-xs text-text-muted leading-relaxed font-light">
+                        Diese Simulation dient rein informativen Zwecken. Baukosten und Erlöse sind gewichtete Durchschnitte.
+                        Finanzierungskosten sind grobe Schätzungen basierend auf der Projektlaufzeit.
+                     </p>
+                </div>
+            </UnifiedCard>
         </div>
 
-        {/* COLUMN 2: REVENUE RISKS */}
-        <div className="flex flex-col gap-6 h-full">
-             <div className="flex items-center justify-between px-2 mb-1 opacity-60 h-5">
-                <div className="flex items-center gap-2">
-                    <TrendingDown className="w-4 h-4 text-orange-200" />
-                    <span className="text-[10px] uppercase tracking-widest font-bold">Marktrisiko: Erlöse</span>
-                </div>
-             </div>
+        {/* RIGHT: LIVE DASHBOARD */}
+        <div className="lg:col-span-7 h-full flex flex-col gap-6">
             
-            <div className="flex-1">
-                <ScenarioCard 
-                    title="Szenario: Markt-Korrektur I" 
-                    subtitle="Verkaufspreise -5%" 
-                    ebt="4.664.750 €" 
-                    roi="28,2%" 
-                    delta="- 6,7 %p"
-                    type="risk"
-                />
-            </div>
-            <div className="flex-1">
-                <ScenarioCard 
-                    title="Szenario: Markt-Korrektur II" 
-                    subtitle="Verkaufspreise -10%" 
-                    ebt="3.548.500 €" 
-                    roi="21,4%" 
-                    delta="- 13,5 %p"
-                    type="risk"
-                />
-            </div>
-        </div>
-
-        {/* COLUMN 3: COST RISKS */}
-         <div className="flex flex-col gap-6 h-full">
-            <div className="flex items-center justify-between px-2 mb-1 opacity-60 h-5">
-                <div className="flex items-center gap-2">
-                     <AlertTriangle className="w-4 h-4 text-blue-200" />
-                    <span className="text-[10px] uppercase tracking-widest font-bold">Risiko: Baukosten</span>
+            {/* KPI CARDS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* ROI CARD */}
+                <div className="relative group rounded-3xl p-8 bg-[#D4AF37] text-black overflow-hidden shadow-[0_0_40px_-10px_rgba(212,175,55,0.3)] transition-transform hover:-translate-y-1">
+                     <div className="absolute top-0 right-0 p-6 opacity-20">
+                        <TrendingUp className="w-12 h-12" />
+                     </div>
+                     <p className="text-[10px] uppercase font-bold tracking-[0.2em] mb-2 opacity-70">Projektrendite (EBT/GKI)</p>
+                     <div className="text-5xl md:text-6xl font-serif font-bold tracking-tighter mb-4">
+                        {financials.margin.toFixed(1)} <span className="text-3xl opacity-60">%</span>
+                     </div>
+                     <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
+                        <div 
+                            className="h-full bg-black/80 transition-all duration-500"
+                            style={{ width: `${Math.min(100, Math.max(0, financials.margin * 2))}%` }}
+                        />
+                     </div>
                 </div>
-             </div>
-            
-            <div className="flex-1">
-                <ScenarioCard 
-                    title="Szenario: Kostensteigerung I" 
-                    subtitle="GKI +5%" 
-                    ebt="4.953.800 €" 
-                    roi="28,5%" 
-                    delta="- 6,4 %p"
-                    type="cost"
-                />
-            </div>
-            <div className="flex-1">
-                <ScenarioCard 
-                    title="Szenario: Kostensteigerung II" 
-                    subtitle="GKI +10%" 
-                    ebt="4.126.600 €" 
-                    roi="22,7%" 
-                    delta="- 12,2 %p"
-                    type="cost"
-                />
-            </div>
-        </div>
 
+                {/* EBT CARD */}
+                <UnifiedCard className="relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 p-6 opacity-10">
+                        <ShieldCheck className="w-12 h-12 text-white" />
+                     </div>
+                     <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-text-muted mb-2">Gesamtgewinn (EBT)</p>
+                     <div className={`text-3xl md:text-4xl font-serif font-bold tracking-tight mb-2 ${financials.ebt > 0 ? 'text-white' : 'text-red-400'}`}>
+                        {(financials.ebt / 1000000).toFixed(2)} Mio. €
+                     </div>
+                     <p className="text-xs text-text-muted mb-6">Invest: {(financials.totalInvest / 1000000).toFixed(2)} Mio. €</p>
+
+                     <div className="mt-auto pt-6 border-t border-white/5">
+                        <div className="flex justify-between items-end">
+                            <span className="text-[10px] uppercase tracking-widest text-text-muted">Break-Even (Verkauf)</span>
+                            <span className="font-mono text-sm text-[#D4AF37]">{(financials.breakEvenPrice).toLocaleString(undefined, {maximumFractionDigits: 0})} €/m²</span>
+                        </div>
+                     </div>
+                </UnifiedCard>
+            </div>
+
+            {/* TORNADO / VISUALIZATION */}
+            <UnifiedCard className="flex-1 flex flex-col justify-center">
+                 <div className="flex justify-between items-center mb-6">
+                    <h4 className="text-lg font-serif text-white">Break-Even Analyse</h4>
+                    <span className="text-xs text-text-muted font-mono">Puffer zum Ziel: {Math.max(0, salesPrice - financials.breakEvenPrice).toLocaleString(undefined, {maximumFractionDigits: 0})} €/m²</span>
+                 </div>
+                 
+                 {/* Visual Bar */}
+                 <div className="relative h-16 w-full bg-white/5 rounded-xl flex items-center px-4 overflow-hidden border border-white/5">
+                     {/* Break Even Line */}
+                     <div 
+                        className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20 shadow-[0_0_10px_rgba(239,68,68,0.5)]"
+                        style={{ left: `${(financials.breakEvenPrice / 10000) * 100}%` }}
+                     >
+                        <div className="absolute bottom-full mb-2 -translate-x-1/2 bg-red-500 text-white text-[9px] font-bold px-2 py-1 rounded">BEP</div>
+                     </div>
+
+                     {/* Current Price Marker */}
+                     <div 
+                        className="absolute top-3 bottom-3 w-1 bg-[#D4AF37] z-20 shadow-[0_0_15px_rgba(197,160,40,0.8)] rounded-full transition-all duration-500"
+                        style={{ left: `${(salesPrice / 10000) * 100}%` }}
+                     >
+                         <div className="absolute top-full mt-2 -translate-x-1/2 text-[#D4AF37] text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
+                            Aktueller Preis
+                         </div>
+                     </div>
+
+                     {/* Safety Zone */}
+                     <div 
+                        className="absolute top-0 bottom-0 bg-gradient-to-r from-transparent to-green-500/10 z-10 transition-all duration-500"
+                        style={{ 
+                            left: `${(financials.breakEvenPrice / 10000) * 100}%`, 
+                            right: `${100 - (salesPrice / 10000) * 100}%` 
+                        }}
+                     />
+                     
+                     {/* Ruler Lines */}
+                     {[2000, 4000, 6000, 8000, 10000].map(val => (
+                         <div key={val} className="absolute h-2 w-px bg-white/20 bottom-0" style={{ left: `${(val/10000)*100}%` }}>
+                             <span className="absolute bottom-3 -translate-x-1/2 text-[8px] text-white/30 font-mono">{val/1000}k</span>
+                         </div>
+                     ))}
+                 </div>
+            </UnifiedCard>
+
+        </div>
       </div>
     </section>
   );

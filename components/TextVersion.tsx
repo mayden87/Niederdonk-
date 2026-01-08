@@ -15,7 +15,7 @@ Netto-Wohnfläche: 3.250 m²
 Planwerte: GRZ I: 0,27 | GRZ II: 0,38 | GFZ: 0,48
 
 2. PLANUNGSSTAND & GENEHMIGUNGSSICHERHEIT
-Bauvorbescheid: Ein rechtsgültiger Bauvorbescheid liegt vor (verlängert im Dezember 2025).
+Bauvorbescheid: Ein rechtsgültiger Bauvorbescheid liegt vor (verlängert bis Dezember 2026).
 Konzept-Bestätigung: Die aktuelle Entwurfsplanung wurde am 21.07.2025 dem Arbeitskreis 34 (AK 34) der Stadt vorgestellt.
 Votum: Die Planung erhielt ein positives Votum. Es wurde bestätigt, dass auf dieser Basis direkt der Bauantrag gestellt werden kann (keine erneute Voranfrage nötig).
 Baurecht: Realisierung nach § 34 BauGB.
@@ -28,7 +28,7 @@ Tiefgarage: 40 Plätze in einer zentralen Mittelgarage, 2 Ablösungen sowie 6 ob
 
 4. BEBAUUNG & TECHNIK
 Einfamilienhäuser: 9 DHH (ca. 140 m², Maße 5,5 m x 11,5 m) und 7 RH (ca. 120 m², Maße 5,5 m x 10 m).
-Baugrund: 12 Sondierungspunkte wurden bereits zur Bewertung von Tragfähigkeit und Grundwasser untersucht.
+Baugrund: 12 Sondierungspunkte wurden bereits zur Bewertung von Tragfähigkeit und Grundwasser.
 Spezialtiefbau: Die Kosten für die Wasserhaltung sowie die notwendige Unterfangung der Nachbarbebauung sind in der Kalkulation voll berücksichtigt.
 
 5. INVESTITIONSMODELL (KALKULATION)
@@ -65,7 +65,7 @@ Courtage: 3% des Kaufpreises zzgl. gesetzl. MwSt.`;
   };
 
   return (
-    <section id="textversion" className="py-20 md:py-32 relative group">
+    <section id="textversion" className="relative py-20 md:py-32 group">
       {/* Background Decor */}
       <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black via-[#0a0a0a] to-transparent pointer-events-none opacity-50" />
       
@@ -139,7 +139,7 @@ Courtage: 3% des Kaufpreises zzgl. gesetzl. MwSt.`;
                 <div className="space-y-4 text-sm text-text-muted leading-relaxed font-light">
                     <div>
                         <span className="text-white block mb-1">Bauvorbescheid</span>
-                        Rechtsgültig und verlängert bis Dezember 2025.
+                        Rechtsgültig und verlängert bis <span className="text-white font-bold">Dezember 2026</span>.
                     </div>
                     <div>
                         <span className="text-white block mb-1">Konzept-Bestätigung (AK 34)</span>
@@ -206,7 +206,7 @@ Courtage: 3% des Kaufpreises zzgl. gesetzl. MwSt.`;
         <Reveal delay={200} className="h-full md:col-span-2 lg:col-span-1">
             <UnifiedCard className="h-full flex flex-col bg-gradient-to-br from-white/[0.03] to-[#D4AF37]/[0.05] border-[#D4AF37]/20">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#D4AF37]/20">
-                    <span className="text-[#D4AF37] font-serif text-2xl font-bold">05</span>
+                    <span className="text-[#D4AF37] font-serif text-2xl font-bold">06</span>
                     <h3 className="text-white font-medium uppercase tracking-wider text-xs">Investitionsmodell</h3>
                     <Banknote className="w-4 h-4 ml-auto text-[#D4AF37]" />
                 </div>
@@ -254,7 +254,7 @@ Courtage: 3% des Kaufpreises zzgl. gesetzl. MwSt.`;
         <Reveal delay={300} className="h-full">
             <UnifiedCard className="h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
-                    <span className="text-[#D4AF37] font-serif text-2xl font-bold">06</span>
+                    <span className="text-[#D4AF37] font-serif text-2xl font-bold">09</span>
                     <h3 className="text-white font-medium uppercase tracking-wider text-xs">Konditionen</h3>
                     <ScrollText className="w-4 h-4 ml-auto text-white/20" />
                 </div>

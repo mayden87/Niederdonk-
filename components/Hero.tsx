@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { SectionTag } from './ui/Shared';
 
@@ -74,11 +75,6 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className={`absolute bottom-8 md:bottom-12 left-6 md:left-12 flex items-center gap-4 transition-opacity duration-1000 delay-[1500ms] ${isMounted ? 'opacity-50' : 'opacity-0'}`}>
-           <div className="h-[1px] w-12 bg-white"></div>
-           <span className="text-[10px] uppercase tracking-[0.2em] text-white">Scroll to discover</span>
-        </div>
       </div>
     </header>
   );

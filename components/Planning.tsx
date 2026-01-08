@@ -31,7 +31,7 @@ const Planning: React.FC = () => {
   const safetyPoints = [
     {
       title: "Baurecht & Vorbescheid",
-      desc: "Rechtsgültiger Vorbescheid liegt vor. Verlängert bis Dezember 2025.",
+      desc: "Rechtsgültiger Vorbescheid liegt vor. Verlängert bis Dezember 2026.",
       icon: FileCheck,
       status: "Gültig"
     },
@@ -53,7 +53,7 @@ const Planning: React.FC = () => {
     <section 
       id="planning" 
       ref={sectionRef}
-      className="relative w-full"
+      className="relative w-full py-20 md:py-32"
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
           
@@ -98,7 +98,7 @@ const Planning: React.FC = () => {
                   <div className="mt-12 flex justify-between items-end border-t border-white/5 pt-6">
                       <div>
                           <p className="text-[9px] text-text-muted uppercase tracking-widest mb-1">Gültig bis</p>
-                          <p className="text-white font-mono text-sm">Dezember 2025</p>
+                          <p className="text-white font-mono text-sm">Dezember 2026</p>
                       </div>
                       <Calendar className="w-5 h-5 text-white/20" />
                   </div>

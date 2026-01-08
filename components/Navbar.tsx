@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, Phone, Mail, MessageCircle, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +19,17 @@ const Navbar: React.FC = () => {
     document.body.style.overflow = isOpen ? 'hidden' : 'unset';
   }, [isOpen]);
 
+  // Updated structure based on new flow:
+  // Overview -> Planning -> Mobility -> Tech -> Masterplan/Floorplans -> Finance -> Sensitivity -> Market -> Contact
   const links = [
     { href: '#overview', label: 'Überblick', number: '01' },
-    { href: '#planning', label: 'Planung', number: '02' },
+    { href: '#planning', label: 'Sicherheit', number: '02' },
     { href: '#mobility', label: 'Mobilität', number: '03' },
-    { href: '#finance', label: 'Kalkulation', number: '04' },
-    { href: '#sensitivity', label: 'Sensitivität', number: '05' },
-    { href: '#contact', label: 'Konditionen', number: '06' },
+    { href: '#tech', label: 'Technik', number: '04' },
+    { href: '#masterplan', label: 'Architektur', number: '05' },
+    { href: '#finance', label: 'Kalkulation', number: '06' },
+    { href: '#sensitivity', label: 'Sensitivität', number: '07' },
+    { href: '#market', label: 'Markt', number: '08' },
   ];
 
   return (
@@ -50,8 +54,8 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* DESKTOP NAV */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* DESKTOP NAV - Simplified for space */}
+          <div className="hidden xl:flex items-center gap-8">
             {links.map((link) => (
               <a
                 key={link.href}
@@ -70,10 +74,10 @@ const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* BURGER */}
+          {/* BURGER (Visible on smaller screens including large laptops if space is tight) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative w-10 h-10 flex flex-col justify-center items-end gap-1.5 group z-50"
+            className="xl:hidden relative w-10 h-10 flex flex-col justify-center items-end gap-1.5 group z-50"
           >
             <span className={`h-[1px] bg-white transition-all duration-300 ${isOpen ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`} />
             <span className={`h-[1px] bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'w-4'}`} />
@@ -90,8 +94,8 @@ const Navbar: React.FC = () => {
       >
         <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay pointer-events-none" />
         
-        <div className="h-full flex flex-col justify-center px-8 md:px-12 relative z-10">
-           <div className="flex flex-col space-y-2">
+        <div className="h-full flex flex-col justify-center px-8 md:px-12 relative z-10 overflow-y-auto">
+           <div className="flex flex-col space-y-2 min-h-0 py-8">
              {links.map((link, idx) => (
                 <a
                   key={link.href}
@@ -104,15 +108,31 @@ const Navbar: React.FC = () => {
                 >
                   <div className="flex items-baseline gap-4">
                     <span className="text-[10px] text-[#C5A028] font-mono opacity-60">/{link.number}</span>
-                    <span className="text-3xl font-serif text-white font-light group-hover:pl-2 transition-all duration-500">
+                    <span className="text-2xl md:text-3xl font-serif text-white font-light group-hover:pl-2 transition-all duration-500">
                       {link.label}
                     </span>
                   </div>
                 </a>
              ))}
+              {/* Konditionen Link */}
+             <a
+                  href="#contact"
+                  onClick={() => setIsOpen(false)}
+                  className={`group flex items-center justify-between py-4 border-b border-white/5 transition-all duration-700 transform ${
+                    isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${100 + links.length * 50}ms` }}
+                >
+                   <div className="flex items-baseline gap-4">
+                    <span className="text-[10px] text-[#C5A028] font-mono opacity-60">/09</span>
+                    <span className="text-2xl md:text-3xl font-serif text-white font-light group-hover:pl-2 transition-all duration-500">
+                      Konditionen
+                    </span>
+                  </div>
+             </a>
            </div>
 
-           <div className={`mt-12 transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+           <div className={`mt-8 md:mt-12 transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <button 
                 onClick={() => window.open('https://wa.me/49123456789', '_blank')}
                 className="w-full bg-white/5 border border-white/10 hover:bg-[#C5A028] hover:text-black hover:border-[#C5A028] text-white p-5 rounded-lg flex items-center justify-between group transition-all duration-500"

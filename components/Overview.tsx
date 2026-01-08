@@ -4,7 +4,7 @@ import { MapPin, Home, Layers, ArrowUpRight } from 'lucide-react';
 
 const Overview: React.FC = () => {
   return (
-    <section id="overview" className="relative">
+    <section id="overview" className="relative py-20 md:py-32">
       
       <Reveal>
         <div className="mb-12 md:mb-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
@@ -39,7 +39,8 @@ const Overview: React.FC = () => {
                 <div>
                     <h3 className="text-2xl font-serif text-white mb-4">Grundstück & Baurecht</h3>
                     <p className="text-text-muted text-sm font-light leading-relaxed mb-8 max-w-md">
-                        7.398 m² Gesamtareal (6.317 m² Nettobauland) in etablierter Premium-Lage.
+                        7.398 m² Gesamtareal (6.317 m² Nettobauland) in etablierter Premium-Lage. <br/>
+                        <span className="text-white/60">Baurecht nach §34 | Vorbescheid bis 12/2026 | AK34 positiv</span>
                     </p>
                     
                     <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/5">
@@ -114,31 +115,32 @@ const Overview: React.FC = () => {
 
                 {/* Visual Representation */}
                 <div className="w-full md:w-1/3 space-y-4 pt-4 md:pt-0 border-t md:border-t-0 md:border-l border-white/5 md:pl-12">
+                    <p className="text-[9px] uppercase tracking-widest text-text-muted mb-2 text-right">Anteil nach Einheiten</p>
                     <div className="space-y-1">
                         <div className="flex justify-between text-xs text-text-muted uppercase tracking-wider mb-1">
                             <span>DHH</span>
-                            <span className="text-white font-bold">45%</span>
+                            <span className="text-white font-bold">28%</span>
                         </div>
                         <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-[#C5A028] w-[45%]" />
+                            <div className="h-full bg-[#C5A028] w-[28%]" />
                         </div>
                     </div>
                      <div className="space-y-1">
                         <div className="flex justify-between text-xs text-text-muted uppercase tracking-wider mb-1">
                             <span>RH</span>
-                            <span className="text-white font-bold">25%</span>
+                            <span className="text-white font-bold">22%</span>
                         </div>
                         <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-white/40 w-[25%]" />
+                            <div className="h-full bg-white/40 w-[22%]" />
                         </div>
                     </div>
                      <div className="space-y-1">
                         <div className="flex justify-between text-xs text-text-muted uppercase tracking-wider mb-1">
                             <span>ETW</span>
-                            <span className="text-white font-bold">30%</span>
+                            <span className="text-white font-bold">50%</span>
                         </div>
                         <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-white/20 w-[30%]" />
+                            <div className="h-full bg-white/20 w-[50%]" />
                         </div>
                     </div>
                 </div>

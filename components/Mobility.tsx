@@ -3,7 +3,7 @@ import { SectionTag, UnifiedCard, MetricRow } from './ui/Shared';
 
 const Mobility: React.FC = () => {
   return (
-    <section id="mobility">
+    <section id="mobility" className="py-20 md:py-32">
       <div className="mb-10 md:mb-16">
         <SectionTag>03. Städtebau & Mobilität</SectionTag>
         <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4">Konzept mit Nachweis-Charakter</h2>
@@ -33,7 +33,7 @@ const Mobility: React.FC = () => {
             <MetricRow label="Pflichtstellplätze" value="42" />
             <MetricRow label="Realisiert in TG" value="40" />
             <MetricRow label="Ablöse (statt Bau)" value="2" />
-            <MetricRow label="Besucherplätze" value="6" border={false} />
+            <MetricRow label="Besucherplätze (Zusätzlich)" value="+ 6" border={false} />
           </div>
         </UnifiedCard>
 

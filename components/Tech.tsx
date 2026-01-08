@@ -3,7 +3,7 @@ import { SectionTag, UnifiedCard } from './ui/Shared';
 
 const Tech: React.FC = () => {
   return (
-    <section id="tech">
+    <section id="tech" className="py-20 md:py-32">
       <UnifiedCard>
         <div className="mb-8 md:mb-12">
             <SectionTag>04. Bebauung & Technik</SectionTag>

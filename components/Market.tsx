@@ -3,11 +3,11 @@ import { SectionTag, UnifiedCard } from './ui/Shared';
 
 const Market: React.FC = () => {
   return (
-    <section id="market" className="relative py-10 md:py-20">
+    <section id="market" className="relative py-20 md:py-32">
       
       {/* Header */}
       <div className="mb-10 md:mb-16 relative z-10">
-        <SectionTag>07. Markt & Vertrieb</SectionTag>
+        <SectionTag>08. Markt & Vertrieb</SectionTag>
         <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4 md:mb-6">
           Markt<span className="text-[#D4AF37]">strategie</span>
         </h2>
