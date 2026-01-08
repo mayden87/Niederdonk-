@@ -19,10 +19,11 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          {/* Main Price Card - Unified with Finance Profit Card */}
-          <div className="md:col-span-2 relative group rounded-3xl overflow-hidden border border-white/10 bg-[#121212] transition-all duration-500 hover:border-white/20">
+          {/* Main Price Card - Glass Style */}
+          <div className="md:col-span-2 relative group rounded-3xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-500 hover:border-white/20 shadow-2xl">
+             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
              
-            <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left">
+            <div className="relative p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left z-10">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/20 backdrop-blur-md mb-2 mx-auto md:mx-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
@@ -46,9 +47,10 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
-          {/* Courtage Card - Unified Style */}
-          <div className="relative group rounded-3xl overflow-hidden border border-white/10 bg-[#121212] transition-all duration-300 hover:border-white/20">
-             <div className="relative p-12 h-full flex flex-col justify-center items-center text-center">
+          {/* Courtage Card - Glass Style */}
+          <div className="relative group rounded-3xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 hover:border-white/20 shadow-2xl">
+             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
+             <div className="relative p-12 h-full flex flex-col justify-center items-center text-center z-10">
                 <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 text-text-muted group-hover:text-accent transition-colors border border-white/5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
@@ -60,9 +62,10 @@ const Contact: React.FC = () => {
              </div>
           </div>
 
-          {/* Info Card - Unified Style */}
-          <div className="relative group rounded-3xl overflow-hidden border border-white/10 bg-[#121212] transition-all duration-300 hover:border-white/20">
-             <div className="relative p-12 h-full flex flex-col justify-center">
+          {/* Info Card - Glass Style */}
+          <div className="relative group rounded-3xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 hover:border-white/20 shadow-2xl">
+             <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
+             <div className="relative p-12 h-full flex flex-col justify-center z-10">
                 <span className="text-text-muted uppercase tracking-widest text-[10px] font-bold mb-8 text-center md:text-left flex items-center gap-2 justify-center md:justify-start">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     Hinweise

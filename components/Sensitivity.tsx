@@ -17,8 +17,8 @@ const ScenarioCard: React.FC<{
   const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.1)]' : '';
   const borderColor = isBasis ? 'border-[#D4AF37]/30' : 'border-white/10';
   
-  // Consistent Height and Radius
-  const cardClasses = `relative group p-8 rounded-3xl border bg-[#101010] transition-all duration-500 hover:border-white/20 ${borderColor} ${glowColor} flex flex-col justify-between h-full`;
+  // GLASS STYLE UPDATE: Replaced bg-[#101010] with bg-black/40 backdrop-blur-xl
+  const cardClasses = `relative group p-8 rounded-3xl border bg-black/40 backdrop-blur-xl transition-all duration-500 hover:border-white/20 ${borderColor} ${glowColor} flex flex-col justify-between h-full shadow-2xl`;
 
   // Parse ROI for bar width (max assumed 40%)
   const roiNum = parseFloat(roi.replace(',', '.').replace('%', ''));
@@ -30,6 +30,9 @@ const ScenarioCard: React.FC<{
 
   return (
     <div className={cardClasses}>
+      {/* Glossy Sheen */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
+      
       {/* Background Gradient for Basis */}
       {isBasis && (
         <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent opacity-100 rounded-3xl pointer-events-none" />
@@ -125,8 +128,9 @@ const Sensitivity: React.FC = () => {
                 />
             </div>
             
-            {/* Key Takeaway Box - Unified Style */}
-            <div className="flex-1 p-8 rounded-3xl border border-white/10 bg-[#121212] flex flex-col justify-center relative overflow-hidden group min-h-[220px]">
+            {/* Key Takeaway Box - Glass Style */}
+            <div className="flex-1 p-8 rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl flex flex-col justify-center relative overflow-hidden group min-h-[220px] shadow-2xl">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                 <h5 className="text-white font-serif text-2xl mb-4 relative z-10">Fazit & Bewertung</h5>

@@ -4,7 +4,7 @@ import { SectionTag, UnifiedCard } from './ui/Shared';
 const Tech: React.FC = () => {
   return (
     <section id="tech">
-      <UnifiedCard className="bg-[#121212]/90">
+      <UnifiedCard>
         <div className="mb-12">
             <SectionTag>04. Bebauung & Technik</SectionTag>
             <h2 className="text-3xl md:text-5xl font-serif font-medium text-white mt-4">Bauweise, Baugrund, Spezialtiefbau</h2>

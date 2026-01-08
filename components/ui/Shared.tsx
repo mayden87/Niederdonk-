@@ -55,17 +55,24 @@ export const UnifiedCard: React.FC<{ children: React.ReactNode; className?: stri
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={() => setOpacity(0)}
-      className={`relative h-full overflow-hidden rounded-3xl border border-white/10 bg-[#101010] shadow-2xl transition-all duration-500 hover:border-white/20 group ${className} ${noPadding ? '' : 'p-8 md:p-10'}`}
+      // GLOSSY GLASS UPDATE:
+      // Removed solid bg-[#101010]
+      // Added bg-black/40 (transparency) + backdrop-blur-xl (glass) + border-white/10
+      // Added an internal gradient shadow for depth
+      className={`relative h-full overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:border-white/20 group ${className} ${noPadding ? '' : 'p-8 md:p-10'}`}
     >
       {/* Texture Grain */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none mix-blend-overlay" />
+      
+      {/* Glossy Sheen Gradient (Top Left to Bottom Right) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
 
       {/* The Moving Spotlight Gradient */}
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 ease-out"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(212,175,55,0.06), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(212,175,55,0.08), transparent 40%)`,
         }}
       />
       

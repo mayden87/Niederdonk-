@@ -66,8 +66,9 @@ const Market: React.FC = () => {
         {/* RIGHT COLUMN (Span 5) */}
         <div className="lg:col-span-5 flex flex-col gap-6">
             
-            {/* PRICING CARD */}
-             <div className="bg-[#121212] border border-white/10 p-10 rounded-3xl relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 shadow-xl">
+            {/* PRICING CARD - Updated to Glass */}
+             <div className="bg-black/40 backdrop-blur-xl border border-white/10 p-10 rounded-3xl relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 shadow-2xl">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.1),transparent_50%)]" />
                 
                 <div className="relative z-10 flex flex-col items-center text-center">

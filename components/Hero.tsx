@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
 
         <div className="max-w-5xl">
           <div className={`transition-all duration-1000 ease-out delay-200 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <SectionTag className="mb-6 md:mb-8 border border-white/10 px-4 py-1 rounded-full bg-black/20 backdrop-blur-sm inline-flex">
+            <SectionTag className="mb-6 md:mb-8 border border-white/10 px-4 py-1 rounded-full bg-black/40 backdrop-blur-md inline-flex">
                Confidential Memorandum
             </SectionTag>
           </div>
@@ -46,19 +46,20 @@ const Hero: React.FC = () => {
           <div className={`flex flex-col md:flex-row gap-8 items-start transition-all duration-1000 ease-out delay-700 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <p className="text-base md:text-lg text-white/80 max-w-lg leading-relaxed font-light tracking-wide pl-4 border-l-2 border-[#D4AF37]">
               Ein Rückzugsort. Ein Statement. <br/>
-              <span className="text-[#D4AF37]">32 Einheiten</span> in perfekter Symbiose aus Architektur und Natur.
+              <span className="text-[#D4AF37]">32 Einheiten</span> in perfekter Symbiose aus <br />
+              Architektur und Natur.
             </p>
             
-            {/* Quick Stats Pill */}
-            <div className="hidden md:flex gap-6 bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-xl">
+            {/* Quick Stats Pill - Glossy Glass Style */}
+            <div className="hidden md:flex gap-6 bg-black/30 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl">
                <div>
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider">Volumen</p>
-                  <p className="text-white font-serif text-lg">22,3 Mio. €</p>
+                  <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Volumen</p>
+                  <p className="text-white font-serif text-xl tracking-tight">22,3 Mio. €</p>
                </div>
-               <div className="w-px h-8 bg-white/10"></div>
+               <div className="w-px h-10 bg-white/10"></div>
                <div>
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider">Rendite</p>
-                  <p className="text-[#D4AF37] font-serif text-lg">~34,9%</p>
+                  <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Rendite</p>
+                  <p className="text-[#D4AF37] font-serif text-xl tracking-tight">~34,9%</p>
                </div>
             </div>
           </div>

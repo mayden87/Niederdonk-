@@ -65,7 +65,7 @@ const Finance: React.FC = () => {
         
         {/* LEFT COLUMN: Investitionskosten (Detailed Breakdown) */}
         <div className="lg:col-span-7 h-full">
-          <UnifiedCard className="bg-[#121212] h-full">
+          <UnifiedCard className="h-full">
              <div className="flex items-center justify-between mb-8">
                 <h3 className="text-2xl font-serif text-white">Investitionskosten</h3>
                 <div className="px-4 py-2 rounded-full border border-white/5 bg-white/5 text-[10px] text-text-muted uppercase tracking-wider font-medium">
@@ -95,7 +95,7 @@ const Finance: React.FC = () => {
         <div className="lg:col-span-5 flex flex-col gap-6 h-full">
           
           {/* Revenue Card */}
-          <UnifiedCard className="flex-1 flex flex-col bg-[#161616]">
+          <UnifiedCard className="flex-1 flex flex-col">
              
              <h3 className="text-2xl font-serif text-white mb-8 flex justify-between items-center">
                 <span>Ertragserwartung</span>

@@ -159,14 +159,15 @@ const Masterplan: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col h-full lg:h-[700px] gap-6">
              
              {/* 1. METRICS */}
-             <div className="flex-1 relative rounded-3xl p-10 border border-white/10 bg-[#121212] flex flex-col justify-center">
+             <div className="flex-1 relative rounded-3xl p-10 border border-white/10 bg-black/40 backdrop-blur-xl flex flex-col justify-center shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
                 <div className="absolute top-0 right-0 p-8 opacity-20">
                     <PieChart className="w-12 h-12 text-[#D4AF37]" />
                 </div>
                 
-                <h3 className="text-white font-serif text-2xl mb-8">Auswahl</h3>
+                <h3 className="text-white font-serif text-2xl mb-8 relative z-10">Auswahl</h3>
                 
-                <div className="space-y-8">
+                <div className="space-y-8 relative z-10">
                     <div className="group">
                         <p className="text-[10px] uppercase tracking-widest text-text-muted mb-2 group-hover:text-[#D4AF37] transition-colors font-bold">Verkaufsvolumen</p>
                         <p className="text-4xl font-light text-white tracking-tight">{formatMoney(metrics.price)}</p>
@@ -186,8 +187,9 @@ const Masterplan: React.FC = () => {
              </div>
 
              {/* 2. CALCULATOR */}
-             <div className="relative rounded-3xl p-10 border border-white/10 bg-[#121212]">
-                <div className="space-y-6">
+             <div className="relative rounded-3xl p-10 border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
+                <div className="space-y-6 relative z-10">
                     <div className="space-y-3">
                         <div className="flex justify-between text-[10px] font-bold text-text-muted uppercase tracking-wider">
                             <span>Eigenkapital</span>
