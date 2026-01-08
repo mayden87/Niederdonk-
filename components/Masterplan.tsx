@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { SectionTag, Reveal } from './ui/Shared';
-import { PieChart, Zap, Trees, Maximize2, MousePointer2 } from 'lucide-react';
+import { SectionTag } from './ui/Shared';
+import { PieChart, Zap, Maximize2 } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const buildingData: Record<string, { id: string; label: string; count: number; area: number; price: number; rent: number }> = {
@@ -28,13 +28,6 @@ const BuildingShape: React.FC<{ d: string; active: boolean; onClick: () => void;
             className="transition-all duration-500 ease-out group-hover:fill-[#D4AF37]/20 group-hover:stroke-[#D4AF37]"
             style={{ backdropFilter: 'blur(4px)' }}
         />
-        
-        {/* Label Indicator (Only visible on hover/active) */}
-        <foreignObject x="0" y="0" width="100%" height="100%" className={`pointer-events-none transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-           <div className="w-full h-full flex items-center justify-center">
-              {/* Note: Centering inside the path is complex in pure SVG, relying on visual placement via parent <g> transforms usually */}
-           </div>
-        </foreignObject>
     </g>
 );
 
@@ -54,16 +47,16 @@ const Masterplan: React.FC = () => {
   }, [selected, equity, interest]);
 
   return (
-    <section id="masterplan" className="relative w-full py-24">
+    <section id="masterplan" className="relative w-full py-20">
        
-       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 h-full items-start">
+       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* HEADER (Top Left aligned with grid) */}
-          <div className="lg:col-span-12 mb-4 flex flex-col md:flex-row justify-between items-end">
+          <div className="lg:col-span-12 mb-8 flex flex-col md:flex-row justify-between items-end">
              <div>
                 <SectionTag>Lageplan</SectionTag>
-                <h2 className="text-5xl md:text-7xl font-serif font-bold text-white mt-4">
-                  Living <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-white/50">Matrix</span>
+                <h2 className="text-5xl md:text-7xl font-serif font-medium text-white mt-4">
+                  Living <span className="text-white/50">Matrix</span>
                 </h2>
              </div>
              
@@ -74,13 +67,13 @@ const Masterplan: React.FC = () => {
                   className="group px-6 py-3 rounded-full border border-white/10 hover:border-[#D4AF37] bg-white/5 backdrop-blur-md transition-all flex items-center gap-2"
                 >
                   <Maximize2 className="w-4 h-4 text-white group-hover:text-[#D4AF37]" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-white">Gesamtansicht</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-white">Gesamtansicht</span>
                 </button>
              </div>
           </div>
 
-          {/* LEFT: THE MAP (No Box, Transparent, "Augmented Reality" feel) */}
-          <div className="lg:col-span-8 relative aspect-[4/3] lg:h-[700px] lg:aspect-auto rounded-[3rem] overflow-hidden group border border-white/5">
+          {/* LEFT: THE MAP */}
+          <div className="lg:col-span-8 relative aspect-[4/3] lg:h-[700px] lg:aspect-auto rounded-3xl overflow-hidden group border border-white/10 bg-[#101010]">
              
              {/* 1. REAL SATELLITE IMAGE BASE */}
              <img 
@@ -89,7 +82,7 @@ const Masterplan: React.FC = () => {
                className="absolute inset-0 w-full h-full object-cover grayscale-[30%] contrast-125 brightness-75 transition-transform duration-[60s] ease-linear group-hover:scale-105"
              />
              
-             {/* 2. OVERLAY GRADIENT (Vignette) */}
+             {/* 2. OVERLAY GRADIENT */}
              <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/20 to-black/80 pointer-events-none" />
 
              {/* 3. INTERACTIVE SVG LAYER */}
@@ -110,9 +103,7 @@ const Masterplan: React.FC = () => {
                  {/* ACCESS ROAD */}
                  <path d="M 400 300 L 400 600" stroke="white" strokeWidth="40" strokeOpacity="0.05" strokeLinecap="round" />
 
-                 {/* BUILDINGS (Isometric Shapes) */}
-                 
-                 {/* MFH 1 (Front Left) */}
+                 {/* MFH 1 */}
                  <BuildingShape 
                     d="M 100 320 L 300 320 L 300 420 L 100 420 Z" 
                     active={selected.includes('mfh1')} 
@@ -120,7 +111,7 @@ const Masterplan: React.FC = () => {
                     label="MFH I"
                  />
                  
-                 {/* MFH 2 (Front Right) */}
+                 {/* MFH 2 */}
                  <BuildingShape 
                     d="M 500 320 L 700 320 L 700 420 L 500 420 Z" 
                     active={selected.includes('mfh2')} 
@@ -128,16 +119,13 @@ const Masterplan: React.FC = () => {
                     label="MFH II"
                  />
 
-                 {/* Houses (Back Row - Distributed) */}
                  <g>
-                    {/* Left Cluster */}
                     <BuildingShape 
                         d="M 120 150 L 320 150 L 320 230 L 120 230 Z" 
                         active={selected.includes('dhh')} 
                         onClick={() => toggle('dhh')}
                         label="DHH Cluster"
                     />
-                    {/* Right Cluster */}
                     <BuildingShape 
                         d="M 480 150 L 680 150 L 680 230 L 480 230 Z" 
                         active={selected.includes('rh')} 
@@ -146,7 +134,7 @@ const Masterplan: React.FC = () => {
                     />
                  </g>
 
-                 {/* Floating Labels (Static for clarity) */}
+                 {/* Floating Labels */}
                  <text x="200" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">MFH I</text>
                  <text x="600" y="370" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">MFH II</text>
                  <text x="220" y="190" fill="white" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.8" pointerEvents="none">9 DHH</text>
@@ -167,11 +155,11 @@ const Masterplan: React.FC = () => {
              </div>
           </div>
 
-          {/* RIGHT: DASHBOARD (Floating, Glassy, No Background) */}
+          {/* RIGHT: DASHBOARD */}
           <div className="lg:col-span-4 flex flex-col h-full lg:h-[700px] gap-6">
              
-             {/* 1. METRICS (Floating Glass) */}
-             <div className="flex-1 relative rounded-[2.5rem] p-8 border border-white/10 backdrop-blur-xl bg-gradient-to-b from-white/[0.03] to-transparent shadow-2xl flex flex-col justify-center">
+             {/* 1. METRICS */}
+             <div className="flex-1 relative rounded-3xl p-10 border border-white/10 bg-[#121212] flex flex-col justify-center">
                 <div className="absolute top-0 right-0 p-8 opacity-20">
                     <PieChart className="w-12 h-12 text-[#D4AF37]" />
                 </div>
@@ -180,28 +168,28 @@ const Masterplan: React.FC = () => {
                 
                 <div className="space-y-8">
                     <div className="group">
-                        <p className="text-xs uppercase tracking-widest text-text-muted mb-2 group-hover:text-[#D4AF37] transition-colors">Verkaufsvolumen</p>
-                        <p className="text-3xl md:text-4xl font-light text-white tracking-tight">{formatMoney(metrics.price)}</p>
+                        <p className="text-[10px] uppercase tracking-widest text-text-muted mb-2 group-hover:text-[#D4AF37] transition-colors font-bold">Verkaufsvolumen</p>
+                        <p className="text-4xl font-light text-white tracking-tight">{formatMoney(metrics.price)}</p>
                     </div>
                     <div className="w-full h-px bg-white/5" />
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-text-muted mb-1">Wohnfläche</p>
+                            <p className="text-[10px] uppercase tracking-widest text-text-muted mb-1 font-bold">Wohnfläche</p>
                             <p className="text-xl font-medium text-white">{metrics.area} <span className="text-sm opacity-50">m²</span></p>
                         </div>
                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-text-muted mb-1">Einheiten</p>
+                            <p className="text-[10px] uppercase tracking-widest text-text-muted mb-1 font-bold">Einheiten</p>
                             <p className="text-xl font-medium text-white">{metrics.units}</p>
                         </div>
                     </div>
                 </div>
              </div>
 
-             {/* 2. CALCULATOR (Floating Glass) */}
-             <div className="relative rounded-[2.5rem] p-8 border border-white/10 backdrop-blur-xl bg-gradient-to-b from-white/[0.03] to-transparent shadow-2xl">
+             {/* 2. CALCULATOR */}
+             <div className="relative rounded-3xl p-10 border border-white/10 bg-[#121212]">
                 <div className="space-y-6">
                     <div className="space-y-3">
-                        <div className="flex justify-between text-xs font-bold text-text-muted uppercase tracking-wider">
+                        <div className="flex justify-between text-[10px] font-bold text-text-muted uppercase tracking-wider">
                             <span>Eigenkapital</span>
                             <span className="text-white">{equity}%</span>
                         </div>
@@ -211,7 +199,7 @@ const Masterplan: React.FC = () => {
                         />
                     </div>
                      <div className="space-y-3">
-                        <div className="flex justify-between text-xs font-bold text-text-muted uppercase tracking-wider">
+                        <div className="flex justify-between text-[10px] font-bold text-text-muted uppercase tracking-wider">
                             <span>Zins (p.a.)</span>
                             <span className="text-white">{interest}%</span>
                         </div>
@@ -223,8 +211,8 @@ const Masterplan: React.FC = () => {
                 </div>
              </div>
 
-             {/* 3. RESULT (Gold Highlight - Floating) */}
-             <div className="relative rounded-[2.5rem] p-8 bg-[#D4AF37] text-black shadow-[0_0_50px_-10px_rgba(212,175,55,0.3)] hover:scale-[1.02] transition-transform duration-500">
+             {/* 3. RESULT */}
+             <div className="relative rounded-3xl p-10 bg-[#D4AF37] text-black shadow-[0_0_50px_-10px_rgba(212,175,55,0.3)] hover:scale-[1.02] transition-transform duration-500 border border-white/10">
                 <div className="flex items-center gap-2 mb-2 opacity-70">
                     <Zap className="w-4 h-4 fill-current" />
                     <p className="text-[10px] uppercase font-bold tracking-[0.2em]">Cashflow Prognose</p>

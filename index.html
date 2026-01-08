@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,21 +19,24 @@
           extend: {
             colors: {
               accent: '#D4AF37',
-              'bg-dark': '#0F0F0F',
-              'bg-card': '#1A1A1A',
-              'text-main': '#E5E5E5',
-              'text-muted': '#A0A0A0',
-              'nature': '#1a2e1a', // Dark organic green
+              'bg-main': '#050505',
+              'surface': '#101010',
+              'surface-highlight': '#161616',
+              'text-main': '#F0F0F0',
+              'text-muted': '#A3A3A3',
+              'border-subtle': 'rgba(255, 255, 255, 0.08)',
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               serif: ['Playfair Display', 'serif'],
             },
+            borderRadius: {
+              'card': '1.5rem', // Consistent 24px radius
+            },
             animation: {
               'blob': 'blob 20s infinite',
               'ken-burns': 'kenBurns 30s ease-out infinite alternate',
               'fade-in-up': 'fadeInUp 1s ease-out forwards',
-              'tree-sway': 'sway 3s ease-in-out infinite alternate',
             },
             keyframes: {
               blob: {
@@ -49,10 +52,6 @@
               fadeInUp: {
                 '0%': { opacity: '0', transform: 'translateY(40px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              sway: {
-                '0%': { transform: 'rotate(-2deg)' },
-                '100%': { transform: 'rotate(2deg)' },
               }
             }
           }
@@ -61,50 +60,45 @@
     </script>
     <style>
       body {
-        background-color: #0F0F0F;
-        color: #E5E5E5;
-        overflow-x: hidden; /* Prevent horizontal scroll from animations */
-      }
-      .skip-link {
-        position: absolute;
-        left: -999px;
-        top: 12px;
-        background: #000;
-        color: #fff;
-        padding: 10px 12px;
-        border-radius: 8px;
-        z-index: 9999;
-      }
-      .skip-link:focus {
-        left: 12px;
+        background-color: #050505;
+        color: #F0F0F0;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       
-      /* Smooth Reveal Logic */
       .reveal-on-scroll {
         opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(20px);
+        transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
       .reveal-on-scroll.is-visible {
         opacity: 1;
         transform: translateY(0);
       }
 
-      /* Custom Scrollbar for premium feel */
+      /* Consistent Scrollbar */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #0F0F0F; 
+        background: #050505; 
       }
       ::-webkit-scrollbar-thumb {
         background: #333; 
-        border-radius: 4px;
+        border-radius: 3px;
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #D4AF37; 
       }
+      
+      /* Selection Color */
+      ::selection {
+        background: rgba(212, 175, 55, 0.3);
+        color: white;
+      }
     </style>
+    <!-- Import Maps remain consistent -->
   <script type="importmap">
 {
   "imports": {

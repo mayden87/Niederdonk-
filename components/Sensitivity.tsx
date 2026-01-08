@@ -12,11 +12,13 @@ const ScenarioCard: React.FC<{
   type?: 'risk' | 'cost' | 'neutral';
 }> = ({ title, subtitle, ebt, roi, delta, isBasis = false, type = 'neutral' }) => {
   // Determine colors based on type
-  const accentColor = isBasis ? 'text-[#D4AF37]' : type === 'risk' ? 'text-orange-300' : 'text-blue-300';
+  const accentColor = isBasis ? 'text-[#D4AF37]' : type === 'risk' ? 'text-orange-200' : 'text-blue-200';
   const barColor = isBasis ? 'bg-[#D4AF37]' : type === 'risk' ? 'bg-orange-400' : 'bg-blue-400';
-  const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.2)]' : '';
-  const borderColor = isBasis ? 'border-[#D4AF37]/40' : 'border-white/5';
-  const bgClass = isBasis ? 'bg-[#121212]' : 'bg-[#121212]';
+  const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.1)]' : '';
+  const borderColor = isBasis ? 'border-[#D4AF37]/30' : 'border-white/10';
+  
+  // Consistent Height and Radius
+  const cardClasses = `relative group p-8 rounded-3xl border bg-[#101010] transition-all duration-500 hover:border-white/20 ${borderColor} ${glowColor} flex flex-col justify-between h-full`;
 
   // Parse ROI for bar width (max assumed 40%)
   const roiNum = parseFloat(roi.replace(',', '.').replace('%', ''));
@@ -27,14 +29,14 @@ const ScenarioCard: React.FC<{
   const ebtWidth = Math.min(100, (ebtValue / 7000000) * 100);
 
   return (
-    <div className={`relative group p-6 md:p-8 rounded-2xl border ${borderColor} ${bgClass} transition-all duration-500 hover:border-white/20 ${glowColor} flex flex-col justify-between h-full`}>
+    <div className={cardClasses}>
       {/* Background Gradient for Basis */}
       {isBasis && (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent opacity-100 rounded-2xl pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent opacity-100 rounded-3xl pointer-events-none" />
       )}
 
       {/* Header */}
-      <div className="flex justify-between items-start mb-6 relative z-10">
+      <div className="flex justify-between items-start mb-8 relative z-10">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className={`w-1.5 h-1.5 rounded-full ${isBasis ? 'bg-[#D4AF37] animate-pulse' : 'bg-white/20'}`}></span>
@@ -42,7 +44,7 @@ const ScenarioCard: React.FC<{
                 {title}
             </span>
           </div>
-          <h4 className="text-white font-medium text-lg tracking-wide">{subtitle}</h4>
+          <h4 className="text-white font-serif text-xl tracking-wide">{subtitle}</h4>
         </div>
         {delta && (
             <div className={`px-2 py-1 rounded text-[10px] font-bold bg-white/5 border border-white/5 ${type === 'risk' ? 'text-red-300' : 'text-white/60'}`}>
@@ -52,7 +54,7 @@ const ScenarioCard: React.FC<{
       </div>
 
       {/* Metrics */}
-      <div className="space-y-6 relative z-10 mt-auto">
+      <div className="space-y-8 relative z-10 mt-auto">
         {/* EBT Metric */}
         <div>
            <div className="flex justify-between items-end mb-2">
@@ -76,8 +78,6 @@ const ScenarioCard: React.FC<{
                 style={{ width: `${barWidth}%` }} 
                 className={`h-full ${barColor} transition-all duration-1000 ease-out relative`}
               >
-                {/* Subtle highlight inside bar */}
-                <div className="absolute top-0 right-0 bottom-0 w-[1px] bg-white/50 shadow-[0_0_10px_white]"></div>
               </div>
               {/* Target Marker at 34.9% for non-basis cards */}
               {!isBasis && (
@@ -92,17 +92,14 @@ const ScenarioCard: React.FC<{
 
 const Sensitivity: React.FC = () => {
   return (
-    <section id="sensitivity" className="py-12 md:py-24 relative">
-        {/* Background Atmosphere - Removed overflow-hidden from section to prevent clipping shadows */}
-        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 -translate-x-1/4" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="mb-16 max-w-4xl relative z-10">
+    <section id="sensitivity" className="py-20 relative">
+        
+      <div className="mb-20 max-w-4xl relative z-10">
         <SectionTag>06. Sensitivität</SectionTag>
-        <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">
+        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-6 mb-6">
           Robustheits<span className="text-white/20">analyse</span>
         </h2>
-        <p className="text-lg md:text-xl text-text-muted font-light leading-relaxed max-w-2xl">
+        <p className="text-base md:text-lg text-text-muted font-light leading-relaxed max-w-2xl">
             Ein Stresstest des Geschäftsmodells belegt: Selbst bei signifikanten Marktschwankungen 
             (Kostensteigerung oder Erlösminderung) bleibt die Projektrendite im attraktiven zweistelligen Bereich.
         </p>
@@ -128,13 +125,12 @@ const Sensitivity: React.FC = () => {
                 />
             </div>
             
-            {/* Key Takeaway Box */}
-            <div className="flex-1 p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm flex flex-col justify-center relative overflow-hidden group min-h-[220px]">
-                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                 <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-colors" />
+            {/* Key Takeaway Box - Unified Style */}
+            <div className="flex-1 p-8 rounded-3xl border border-white/10 bg-[#121212] flex flex-col justify-center relative overflow-hidden group min-h-[220px]">
+                 <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                <h5 className="text-white font-serif text-xl mb-4 relative z-10">Fazit & Bewertung</h5>
-                <p className="text-sm text-text-muted leading-relaxed mb-6 relative z-10">
+                <h5 className="text-white font-serif text-2xl mb-4 relative z-10">Fazit & Bewertung</h5>
+                <p className="text-sm text-text-muted leading-relaxed font-light mb-6 relative z-10">
                     Das Projekt verfügt über einen außerordentlich hohen Sicherheitspuffer. 
                     Der Break-Even-Point liegt weit unterhalb aktueller Marktniveaus.
                 </p>
@@ -143,7 +139,7 @@ const Sensitivity: React.FC = () => {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-white">Hohe Resilienz</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">Hohe Resilienz</span>
                 </div>
             </div>
         </div>
@@ -152,7 +148,7 @@ const Sensitivity: React.FC = () => {
         <div className="flex flex-col gap-6 h-full">
              <div className="flex items-center justify-between px-2 mb-1 opacity-60 h-5">
                 <div className="flex items-center gap-2">
-                    <TrendingDown className="w-4 h-4 text-orange-300" />
+                    <TrendingDown className="w-4 h-4 text-orange-200" />
                     <span className="text-[10px] uppercase tracking-widest font-bold">Marktrisiko: Erlöse</span>
                 </div>
              </div>
@@ -183,7 +179,7 @@ const Sensitivity: React.FC = () => {
          <div className="flex flex-col gap-6 h-full">
             <div className="flex items-center justify-between px-2 mb-1 opacity-60 h-5">
                 <div className="flex items-center gap-2">
-                     <AlertTriangle className="w-4 h-4 text-blue-300" />
+                     <AlertTriangle className="w-4 h-4 text-blue-200" />
                     <span className="text-[10px] uppercase tracking-widest font-bold">Risiko: Baukosten</span>
                 </div>
              </div>
