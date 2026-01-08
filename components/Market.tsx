@@ -3,12 +3,12 @@ import { SectionTag, UnifiedCard } from './ui/Shared';
 
 const Market: React.FC = () => {
   return (
-    <section id="market" className="relative py-20">
+    <section id="market" className="relative py-10 md:py-20">
       
       {/* Header */}
-      <div className="mb-16 relative z-10">
+      <div className="mb-10 md:mb-16 relative z-10">
         <SectionTag>07. Markt & Vertrieb</SectionTag>
-        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-6 mb-6">
+        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4 md:mb-6">
           Markt<span className="text-[#D4AF37]">strategie</span>
         </h2>
         <p className="text-base text-text-muted max-w-2xl font-light leading-7">
@@ -66,9 +66,9 @@ const Market: React.FC = () => {
         {/* RIGHT COLUMN (Span 5) */}
         <div className="lg:col-span-5 flex flex-col gap-6">
             
-            {/* PRICING CARD - Updated to Glass */}
-             <div className="bg-black/40 backdrop-blur-xl border border-white/10 p-10 rounded-3xl relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 shadow-2xl">
-                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
+            {/* PRICING CARD - Updated to Brighter Glossy Glass */}
+             <div className="bg-white/[0.03] backdrop-blur-2xl border border-white/[0.15] p-10 rounded-3xl relative overflow-hidden group hover:border-white/30 hover:bg-white/[0.05] transition-all duration-500 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.1),transparent_50%)]" />
                 
                 <div className="relative z-10 flex flex-col items-center text-center">

@@ -3,9 +3,10 @@ import { SectionTag } from './ui/Shared';
 import { PieChart, Zap, Maximize2 } from 'lucide-react';
 
 // --- CONFIGURATION ---
+// Prices adjusted so the total sum (when all selected) equals EXACTLY 22,325,000 € (The Exit Value)
 const buildingData: Record<string, { id: string; label: string; count: number; area: number; price: number; rent: number }> = {
-  mfh1: { id: 'MFH-01', label: 'Mehrfamilienhaus 1 (Vorne)', count: 8, area: 680, price: 4420000, rent: 163200 },
-  mfh2: { id: 'MFH-02', label: 'Mehrfamilienhaus 2 (Hinten)', count: 8, area: 680, price: 4420000, rent: 163200 },
+  mfh1: { id: 'MFH-01', label: 'Mehrfamilienhaus 1 (Vorne)', count: 8, area: 575, price: 4337500, rent: 163200 },
+  mfh2: { id: 'MFH-02', label: 'Mehrfamilienhaus 2 (Hinten)', count: 8, area: 575, price: 4337500, rent: 163200 },
   dhh: { id: 'DHH', label: 'Doppelhäuser (9 Einheiten)', count: 9, area: 1260, price: 8190000, rent: 302400 },
   rh: { id: 'RH', label: 'Reihenhäuser (7 Einheiten)', count: 7, area: 840, price: 5460000, rent: 201600 },
 };
@@ -52,12 +53,16 @@ const Masterplan: React.FC = () => {
        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* HEADER (Top Left aligned with grid) */}
-          <div className="lg:col-span-12 mb-8 flex flex-col md:flex-row justify-between items-end">
-             <div>
+          <div className="lg:col-span-12 mb-12 flex flex-col md:flex-row justify-between items-end gap-8">
+             <div className="pl-6 border-l border-[#D4AF37]">
                 <SectionTag>Lageplan</SectionTag>
-                <h2 className="text-5xl md:text-7xl font-serif font-medium text-white mt-4">
-                  Living <span className="text-white/50">Matrix</span>
+                <h2 className="text-4xl md:text-7xl font-serif font-medium text-white mt-4 md:mt-6 mb-6 leading-none">
+                  Living <br />
+                  <span className="text-[#D4AF37] italic">Matrix</span>
                 </h2>
+                <p className="text-base text-text-muted leading-7 max-w-md font-light">
+                  Interaktive Gesamtübersicht der Baukörper. Wählen Sie die Einheiten für Ihre individuelle Kalkulation.
+                </p>
              </div>
              
              {/* Controls */}
@@ -159,8 +164,8 @@ const Masterplan: React.FC = () => {
           <div className="lg:col-span-4 flex flex-col h-full lg:h-[700px] gap-6">
              
              {/* 1. METRICS */}
-             <div className="flex-1 relative rounded-3xl p-10 border border-white/10 bg-black/40 backdrop-blur-xl flex flex-col justify-center shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
+             <div className="flex-1 relative rounded-3xl p-10 border border-white/[0.15] bg-white/[0.03] backdrop-blur-2xl flex flex-col justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-3xl" />
                 <div className="absolute top-0 right-0 p-8 opacity-20">
                     <PieChart className="w-12 h-12 text-[#D4AF37]" />
                 </div>
@@ -187,8 +192,8 @@ const Masterplan: React.FC = () => {
              </div>
 
              {/* 2. CALCULATOR */}
-             <div className="relative rounded-3xl p-10 border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
-                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
+             <div className="relative rounded-3xl p-10 border border-white/[0.15] bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-3xl" />
                 <div className="space-y-6 relative z-10">
                     <div className="space-y-3">
                         <div className="flex justify-between text-[10px] font-bold text-text-muted uppercase tracking-wider">

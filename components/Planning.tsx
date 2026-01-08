@@ -30,20 +30,20 @@ const Planning: React.FC = () => {
 
   const safetyPoints = [
     {
-      title: "Bauantrag",
-      desc: "Sofort möglich. Keine erneute Voranfrage notwendig.",
+      title: "Baurecht & Vorbescheid",
+      desc: "Rechtsgültiger Vorbescheid liegt vor. Verlängert bis Dezember 2025.",
       icon: FileCheck,
-      status: "Startklar"
+      status: "Gültig"
     },
     {
-      title: "Mobilität",
-      desc: "Reduktion auf 42 Stellplätze genehmigt (ÖPNV Bonus).",
+      title: "Arbeitskreis AK 34",
+      desc: "Positives Votum am 21.07.2025. Direktantrag ohne weitere Voranfrage möglich.",
       icon: Check,
-      status: "Optimiert"
+      status: "Bestätigt"
     },
     {
-      title: "Sicherheit",
-      desc: "Vollkostenkalkulation inkl. Spezialtiefbau & Wasser.",
+      title: "Kalkulations-Sicherheit",
+      desc: "Vollkostenkalkulation inkl. Spezialtiefbau, Wasserhaltung & Unterfangung.",
       icon: ShieldCheck,
       status: "Fixiert"
     }
@@ -55,7 +55,7 @@ const Planning: React.FC = () => {
       ref={sectionRef}
       className="relative w-full"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
           
         {/* LEFT COLUMN: VISUAL (The "Certificate") */}
         <div className="order-2 lg:order-1 flex justify-center lg:justify-end">
@@ -109,9 +109,9 @@ const Planning: React.FC = () => {
         {/* RIGHT COLUMN: TEXT (Narrative) */}
         <div className="order-1 lg:order-2 flex flex-col justify-center">
             <Reveal delay={200}>
-                <div className="mb-12 pl-6 border-l border-[#D4AF37]">
+                <div className="mb-8 md:mb-12 pl-6 border-l border-[#D4AF37]">
                    <SectionTag>02. Sicherheit</SectionTag>
-                   <h2 className="text-5xl md:text-7xl font-serif font-medium text-white mt-6 mb-8 leading-none">
+                   <h2 className="text-4xl md:text-7xl font-serif font-medium text-white mt-4 md:mt-6 mb-6 md:mb-8 leading-none">
                       Recht & <br />
                       <span className="text-[#D4AF37] italic">Ordnung</span>
                    </h2>

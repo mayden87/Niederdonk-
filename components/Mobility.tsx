@@ -4,7 +4,7 @@ import { SectionTag, UnifiedCard, MetricRow } from './ui/Shared';
 const Mobility: React.FC = () => {
   return (
     <section id="mobility">
-      <div className="mb-16">
+      <div className="mb-10 md:mb-16">
         <SectionTag>03. Städtebau & Mobilität</SectionTag>
         <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4">Konzept mit Nachweis-Charakter</h2>
       </div>
@@ -26,6 +26,9 @@ const Mobility: React.FC = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg>
           </div>
           <h3 className="text-2xl font-serif text-white mb-6">Stellplatznachweis</h3>
+          <p className="text-text-muted text-xs mb-4">
+             Durch Lagegunst (ÖPNV &lt; 350 m) wurde der Bedarf von <span className="text-white font-bold">56 auf 42</span> Stellplätze reduziert.
+          </p>
           <div className="space-y-1">
             <MetricRow label="Pflichtstellplätze" value="42" />
             <MetricRow label="Realisiert in TG" value="40" />

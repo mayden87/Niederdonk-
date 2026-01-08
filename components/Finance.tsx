@@ -49,10 +49,10 @@ const Finance: React.FC = () => {
   const GKI_TOTAL = 16544000;
 
   return (
-    <section id="finance" className="relative py-12">
-      <div className="mb-20">
+    <section id="finance" className="relative py-10 md:py-12">
+      <div className="mb-10 md:mb-20">
         <SectionTag>05. Kalkulation</SectionTag>
-        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-6 mb-6">
+        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4 md:mb-6">
           Wirtschaftlichkeits<span className="text-accent">rechnung</span>
         </h2>
         <p className="text-base text-text-muted max-w-2xl font-light leading-7">
@@ -61,7 +61,7 @@ const Finance: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 md:mb-16">
         
         {/* LEFT COLUMN: Investitionskosten (Detailed Breakdown) */}
         <div className="lg:col-span-7 h-full">

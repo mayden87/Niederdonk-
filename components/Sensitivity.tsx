@@ -14,11 +14,12 @@ const ScenarioCard: React.FC<{
   // Determine colors based on type
   const accentColor = isBasis ? 'text-[#D4AF37]' : type === 'risk' ? 'text-orange-200' : 'text-blue-200';
   const barColor = isBasis ? 'bg-[#D4AF37]' : type === 'risk' ? 'bg-orange-400' : 'bg-blue-400';
-  const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.1)]' : '';
-  const borderColor = isBasis ? 'border-[#D4AF37]/30' : 'border-white/10';
+  const glowColor = isBasis ? 'shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)]' : 'shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]';
+  const borderColor = isBasis ? 'border-[#D4AF37]/30' : 'border-white/[0.15]';
+  const bgClass = isBasis ? 'bg-[#D4AF37]/5' : 'bg-white/[0.03]';
   
-  // GLASS STYLE UPDATE: Replaced bg-[#101010] with bg-black/40 backdrop-blur-xl
-  const cardClasses = `relative group p-8 rounded-3xl border bg-black/40 backdrop-blur-xl transition-all duration-500 hover:border-white/20 ${borderColor} ${glowColor} flex flex-col justify-between h-full shadow-2xl`;
+  // GLASS STYLE UPDATE: Brighter, more blur
+  const cardClasses = `relative group p-8 rounded-3xl border backdrop-blur-2xl transition-all duration-500 hover:border-white/30 ${bgClass} ${borderColor} ${glowColor} flex flex-col justify-between h-full`;
 
   // Parse ROI for bar width (max assumed 40%)
   const roiNum = parseFloat(roi.replace(',', '.').replace('%', ''));
@@ -31,11 +32,11 @@ const ScenarioCard: React.FC<{
   return (
     <div className={cardClasses}>
       {/* Glossy Sheen */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none rounded-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-3xl" />
       
       {/* Background Gradient for Basis */}
       {isBasis && (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-transparent opacity-100 rounded-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-transparent opacity-100 rounded-3xl pointer-events-none" />
       )}
 
       {/* Header */}
@@ -95,11 +96,11 @@ const ScenarioCard: React.FC<{
 
 const Sensitivity: React.FC = () => {
   return (
-    <section id="sensitivity" className="py-20 relative">
+    <section id="sensitivity" className="py-10 md:py-20 relative">
         
-      <div className="mb-20 max-w-4xl relative z-10">
+      <div className="mb-10 md:mb-20 max-w-4xl relative z-10">
         <SectionTag>06. Sensitivität</SectionTag>
-        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-6 mb-6">
+        <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4 md:mt-6 mb-4 md:mb-6">
           Robustheits<span className="text-white/20">analyse</span>
         </h2>
         <p className="text-base md:text-lg text-text-muted font-light leading-relaxed max-w-2xl">
@@ -128,9 +129,9 @@ const Sensitivity: React.FC = () => {
                 />
             </div>
             
-            {/* Key Takeaway Box - Glass Style */}
-            <div className="flex-1 p-8 rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl flex flex-col justify-center relative overflow-hidden group min-h-[220px] shadow-2xl">
-                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/40 pointer-events-none" />
+            {/* Key Takeaway Box - Updated Glossy Style */}
+            <div className="flex-1 p-8 rounded-3xl border border-white/[0.15] bg-white/[0.03] backdrop-blur-2xl flex flex-col justify-center relative overflow-hidden group min-h-[220px] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] hover:bg-white/[0.05] transition-colors">
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                 <h5 className="text-white font-serif text-2xl mb-4 relative z-10">Fazit & Bewertung</h5>
