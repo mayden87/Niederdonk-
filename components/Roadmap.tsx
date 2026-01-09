@@ -1,149 +1,199 @@
 
 import React from 'react';
-import { SectionTag, Reveal } from './ui/Shared';
-import { CheckCircle2, CircleDashed, Milestone } from 'lucide-react';
+import { SectionTag, Stage, Reveal, SectionBackground } from './ui/Shared';
+import { CheckCircle2, CircleDashed, ArrowRight, Calendar, Flag, Construction, Home, ArrowUpRight } from 'lucide-react';
 
-const RoadmapItem: React.FC<{
-  phase: string;
-  date: string;
-  title: string;
-  desc: string;
-  status: 'done' | 'current' | 'future';
-  align: 'left' | 'right';
-}> = ({ phase, date, title, desc, status, align }) => {
-  const isLeft = align === 'left';
-  
-  return (
-    <div className={`relative flex items-center justify-center md:justify-between w-full mb-16 md:mb-24 last:mb-0 group ${isLeft ? 'flex-row-reverse' : ''}`}>
-      
-      {/* Content Side */}
-      <div className={`w-full md:w-[45%] ${isLeft ? 'text-left md:text-right pl-12 md:pl-0 md:pr-12' : 'pl-12 text-left'}`}>
-        <Reveal>
-          <div className={`flex flex-col ${isLeft ? 'items-start md:items-end' : 'items-start'}`}>
-             <span className={`inline-block px-3 py-1 mb-3 text-[9px] font-bold uppercase tracking-widest rounded-full border ${
-                status === 'done' ? 'bg-[#C5A028]/10 text-[#C5A028] border-[#C5A028]/20' : 
-                status === 'current' ? 'bg-white/10 text-white border-white/20 animate-pulse' :
-                'bg-white/5 text-text-muted border-white/5'
-             }`}>
-                {phase}
-             </span>
-             <h3 className={`text-2xl md:text-4xl font-serif text-white mb-2 transition-colors duration-500 ${status === 'current' ? 'text-[#C5A028]' : ''}`}>
-                {title}
-             </h3>
-             <p className="text-[#C5A028] font-mono text-sm mb-4">{date}</p>
-             <p className="text-text-muted text-sm leading-relaxed max-w-sm">
-                {desc}
-             </p>
-          </div>
-        </Reveal>
-      </div>
-
-      {/* Center Line Node */}
-      <div className="absolute left-0 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
-         {/* Glow Effect */}
-         <div className={`absolute w-12 h-12 rounded-full blur-xl transition-all duration-700 ${
-            status === 'done' ? 'bg-[#C5A028]/30' : 
-            status === 'current' ? 'bg-white/30' : 
-            'bg-transparent'
-         }`} />
-         
-         {/* The Node */}
-         <div className={`relative w-4 h-4 md:w-6 md:h-6 rounded-full border-2 transition-all duration-500 z-10 flex items-center justify-center ${
-             status === 'done' ? 'bg-[#050505] border-[#C5A028]' :
-             status === 'current' ? 'bg-[#C5A028] border-white scale-125' :
-             'bg-[#050505] border-white/20'
-         }`}>
-             {status === 'done' && <div className="w-1.5 h-1.5 bg-[#C5A028] rounded-full" />}
-         </div>
-      </div>
-
-      {/* Empty Side for Desktop Balance */}
-      <div className="hidden md:block w-[45%]" />
-
-    </div>
-  );
-};
+const milestones = [
+  {
+    phase: "Status Quo",
+    date: "2024 - 2025",
+    title: "Sicherung & Recht",
+    desc: "Grundstückssicherung, Bauvoranfrage, Verlängerung des Bauvorbescheids und positives Votum des Arbeitskreises (AK34).",
+    status: 'done',
+    icon: <Flag className="w-5 h-5" />
+  },
+  {
+    phase: "Phase 01",
+    date: "Q2 2026",
+    title: "Bauantrag & Pre-Sale",
+    desc: "Einreichung des Bauantrag auf Basis der genehmigten Planung. Start des 'Friends & Family' Vorvertriebs.",
+    status: 'current',
+    icon: <Calendar className="w-5 h-5" />
+  },
+  {
+    phase: "Phase 02",
+    date: "Q4 2026",
+    title: "Spatenstich",
+    desc: "Erteilung der Baugenehmigung und Baubeginn (Tiefbau/Rohbau). Offizieller Vertriebsstart der Einheiten.",
+    status: 'future',
+    icon: <Construction className="w-5 h-5" />
+  },
+  {
+    phase: "Phase 03",
+    date: "Q2 2027",
+    title: "Richtfest",
+    desc: "Fertigstellung des Rohbaus. Beginn des Innenausbaus und der Fassadenarbeiten.",
+    status: 'future',
+    icon: <Home className="w-5 h-5" />
+  },
+  {
+    phase: "Abschluss",
+    date: "Q4 2028",
+    title: "Fertigstellung",
+    desc: "Schlüsselübergabe an die Eigentümer. Fertigstellung der Außenanlagen und Bezugsreife.",
+    status: 'future',
+    icon: <CheckCircle2 className="w-5 h-5" />
+  }
+];
 
 const Roadmap: React.FC = () => {
   return (
-    <section className="relative py-24 md:py-40 overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute inset-0 bg-[#050505]">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-[#C5A028]/30 to-transparent opacity-50" />
+    <section id="roadmap" className="relative py-24 md:py-40 bg-[#050505] overflow-hidden">
+      {/* ATMOSPHERIC BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-1/3 h-1/2 bg-[#C5A028]/5 blur-[160px] opacity-20" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
         
-        {/* Header */}
-        <div className="text-center mb-24">
-            <Reveal>
-                <SectionTag className="justify-center">Meilensteine</SectionTag>
-                <h2 className="text-4xl md:text-7xl font-serif font-medium text-white mt-6">
-                   Roadmap zur <br />
-                   <span className="text-[#C5A028] italic">Realisierung</span>
-                </h2>
-            </Reveal>
-        </div>
+        {/* Header - Editorial Style */}
+        <Reveal>
+          <div className="mb-16 md:mb-28 flex flex-col md:flex-row justify-between items-start md:items-end gap-12 text-left">
+            <div>
+              <SectionTag>Realierung</SectionTag>
+              <h2 className="text-4xl md:text-7xl font-serif text-white leading-[0.95] mt-8">
+                Roadmap zur <br />
+                <span className="text-[#C5A028] italic">Realisierung</span>
+              </h2>
+            </div>
+            <div className="max-w-xl md:pl-10 md:border-l border-white/10">
+              <p className="text-white/55 text-lg leading-relaxed mb-8">
+                Der Weg von der Vision zum fertigen Quartier. Wir folgen einem strukturierten Prozess, 
+                um Termintreue und Qualität zu gewährleisten.
+              </p>
+              <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                <CircleDashed className="w-3 h-3 text-[#C5A028] animate-spin-slow" />
+                <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Projektlaufzeit: ~36 Monate</span>
+              </div>
+            </div>
+          </div>
+        </Reveal>
 
-        {/* The Timeline Container */}
-        <div className="relative">
-            {/* The Vertical Beam (Desktop Center / Mobile Left) */}
-            <div className="absolute left-0 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#C5A028] via-white/20 to-transparent opacity-30" />
+        {/* PROCESS MATRIX STAGE */}
+        <Stage className="mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 divide-y md:divide-y-0 lg:divide-x divide-white/10">
+            {milestones.map((item, i) => {
+              const isDone = item.status === 'done';
+              const isCurrent = item.status === 'current';
+              
+              return (
+                <div 
+                  key={i} 
+                  className={`relative p-8 md:p-10 lg:p-12 group transition-all duration-700 text-left ${
+                    isCurrent ? 'bg-[#C5A028]/10' : 'hover:bg-white/[0.02]'
+                  }`}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-1 flex">
+                    <div className={`h-full transition-all duration-1000 ${
+                      isDone ? 'bg-[#C5A028] w-full' : 
+                      isCurrent ? 'bg-[#C5A028] w-1/2 animate-pulse' : 
+                      'bg-white/5 w-0'
+                    }`} />
+                  </div>
+
+                  <div className="flex justify-between items-start mb-12">
+                    <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-500 ${
+                      isDone ? 'bg-[#C5A028] border-[#C5A028] text-black' : 
+                      isCurrent ? 'bg-white/10 border-[#C5A028] text-[#C5A028] shadow-[0_0_20px_rgba(197,160,40,0.2)]' : 
+                      'bg-white/5 border-white/10 text-white/20'
+                    }`}>
+                      {item.icon}
+                    </div>
+                    <span className={`text-[10px] font-mono tracking-widest uppercase ${
+                      isCurrent ? 'text-[#C5A028]' : 'text-white/20'
+                    }`}>
+                      {item.phase}
+                    </span>
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className={`text-xs font-bold uppercase tracking-widest ${isDone ? 'text-white/40' : 'text-[#C5A028]'}`}>
+                      {item.date}
+                    </p>
+                    <h3 className={`text-2xl font-serif leading-tight transition-colors duration-500 ${
+                      isCurrent || isDone ? 'text-white' : 'text-white/30'
+                    }`}>
+                      {item.title}
+                    </h3>
+                    <p className={`text-sm leading-relaxed transition-colors duration-500 ${
+                      isDone || isCurrent ? 'text-white/50' : 'text-white/20'
+                    }`}>
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  {i < milestones.length - 1 && (
+                    <div className="hidden lg:flex absolute top-1/2 -right-4 z-20 items-center justify-center w-8 h-8 rounded-full bg-[#050505] border border-white/10 text-white/20 group-hover:text-[#C5A028] transition-colors">
+                      <ArrowRight className="w-3 h-3" />
+                    </div>
+                  )}
+
+                  <div className="mt-12 pt-6 border-t border-white/5 flex items-center justify-between">
+                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold ${
+                      isDone ? 'text-green-500' : isCurrent ? 'text-[#C5A028]' : 'text-white/10'
+                    }`}>
+                      {isDone ? 'Abgeschlossen' : isCurrent ? 'In Arbeit' : 'Geplant'}
+                    </span>
+                    {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Stage>
+
+        {/* Cinematic Bottom Block */}
+        <Reveal delay={200}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             
-            <RoadmapItem 
-                phase="Status Quo"
-                date="2024 - 2025"
-                title="Sicherung & Recht"
-                desc="Grundstückssicherung, Bauvoranfrage, Verlängerung des Bauvorbescheids und positives Votum des Arbeitskreises (AK34)."
-                status="done"
-                align="left"
-            />
+            <div className="text-left space-y-8 order-2 lg:order-1">
+                <div className="flex items-center gap-4">
+                    <div className="h-[1px] w-12 bg-[#C5A028]"></div>
+                    <p className="text-[11px] text-[#C5A028] uppercase tracking-[0.4em] font-bold">Verbindlichkeit</p>
+                </div>
+                <h3 className="text-4xl md:text-5xl font-serif text-white leading-tight">
+                  Sicherheit im <br />
+                  <span className="text-[#C5A028] italic">Zeitplan.</span>
+                </h3>
+                <p className="text-lg text-white/50 leading-relaxed font-light">
+                  Unsere Roadmap ist kein Versprechen, sondern eine Verpflichtung. Durch die enge 
+                  Abstimmung mit allen Fachplanern und der Stadt Meerbusch minimieren wir zeitliche 
+                  Risiken und schaffen eine belastbare Planungsgrundlage.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all group/btn font-bold text-[10px] uppercase tracking-widest shadow-2xl">
+                    Meilenstein-Plan laden <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </button>
+                </div>
+            </div>
 
-            <RoadmapItem 
-                phase="Meilenstein 1"
-                date="Q2 2026"
-                title="Bauantrag & Pre-Sale"
-                desc="Einreichung des Bauantrags auf Basis der genehmigten Planung. Start des 'Friends & Family' Vorvertriebs."
-                status="current"
-                align="right"
-            />
+            <div className="relative group overflow-hidden rounded-[32px] border border-white/10 shadow-2xl aspect-video lg:aspect-[16/9] order-1 lg:order-2">
+                <img
+                    src="https://whhy.de/wp-content/uploads/2026/01/4.png"
+                    alt="Roadmap Realisierung"
+                    className="w-full h-full object-cover transition-transform duration-[15s] ease-linear group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                    <p className="text-white font-serif italic text-2xl drop-shadow-lg text-left">"Der Weg zum Ziel <br/> ist präzise markiert."</p>
+                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-white" />
+                    </div>
+                </div>
+            </div>
 
-            <RoadmapItem 
-                phase="Meilenstein 2"
-                date="Q4 2026"
-                title="Spatenstich"
-                desc="Erteilung der Baugenehmigung und Baubeginn (Tiefbau/Rohbau). Offizieller Vertriebsstart der Einheiten."
-                status="future"
-                align="left"
-            />
-
-            <RoadmapItem 
-                phase="Meilenstein 3"
-                date="Q2 2027"
-                title="Richtfest"
-                desc="Fertigstellung des Rohbaus. Beginn des Innenausbaus und der Fassadenarbeiten."
-                status="future"
-                align="right"
-            />
-
-             <RoadmapItem 
-                phase="Abschluss"
-                date="Q4 2028"
-                title="Fertigstellung"
-                desc="Schlüsselübergabe an die Eigentümer. Fertigstellung der Außenanlagen und Bezugsreife."
-                status="future"
-                align="left"
-            />
-
-        </div>
-
-        {/* Future Vision Note */}
-        <div className="mt-24 text-center">
-             <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
-                <CircleDashed className="w-4 h-4 text-[#C5A028] animate-spin-slow" />
-                <span className="text-[10px] uppercase tracking-widest text-white/60">Projektlaufzeit: ca. 36 Monate</span>
-             </div>
-        </div>
+          </div>
+        </Reveal>
 
       </div>
     </section>

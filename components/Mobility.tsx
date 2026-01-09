@@ -1,63 +1,139 @@
 
 import React from 'react';
-import { SectionTag, UnifiedCard, MetricRow, SectionBackground, MobileSwiper } from './ui/Shared';
+import { SectionTag, Stage, Reveal, SectionBackground, MetricRow } from './ui/Shared';
+import { Truck, Car, Leaf, ArrowRight, ArrowUpRight, Navigation, MapPin, ChevronRight } from 'lucide-react';
 
 const Mobility: React.FC = () => {
+  const mobilityFeatures = [
+    {
+      title: "Erschließung",
+      desc: "Zentrale Zufahrt über privaten Wohnweg (6m Breite). Optimale Durchmischung von privaten und halböffentlichen Räumen.",
+      icon: Navigation
+    },
+    {
+      title: "Rettungswege",
+      desc: "Sicheres Drehleiter-Konzept von der Niederdonker Straße. Interner Weg dient als Aufstellfläche für Notdienste.",
+      icon: Truck
+    },
+    {
+      title: "Nachhaltigkeit",
+      desc: "E-Mobility-Vorbereitung an jedem Stellplatz. Regenwasser-Management durch intelligente Versickerung und Dachbegrünung.",
+      icon: Leaf
+    }
+  ];
+
   return (
-    <section id="mobility" className="py-20 md:py-32 relative">
-      
-      {/* ATMOSPHERIC BACKGROUND - Motion / Traffic */}
+    <section id="mobility" className="relative py-24 md:py-40 bg-[#050505] overflow-hidden">
+      {/* ATMOSPHERIC BACKGROUND */}
       <SectionBackground 
-         src="https://images.unsplash.com/photo-1495576775051-8af0bd64529c?q=80&w=2000&auto=format&fit=crop"
-         opacity={0.3} 
-         color="from-[#050505] via-[#0a0f14]/50 to-[#050505]" 
+        src="https://whhy.de/wp-content/uploads/2026/01/1.png" 
+        opacity={0.15} 
+        color="from-[#050505] via-transparent to-[#050505]" 
       />
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
-        <div className="mb-10 md:mb-16">
-            <SectionTag>03. Städtebau & Mobilität</SectionTag>
-            <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-4">Konzept mit Nachweis-Charakter</h2>
-        </div>
+        
+        {/* Header Section */}
+        <Reveal>
+          <div className="mb-16 md:mb-28">
+            <SectionTag>02. Städtebau & Mobilität</SectionTag>
+            <div className="flex flex-col lg:flex-row gap-12 mt-8 lg:items-end justify-between">
+                <h2 className="text-5xl md:text-8xl font-serif text-white leading-[0.9] max-w-4xl tracking-tighter text-left">
+                  Konzept mit <br />
+                  <span className="text-[#C5A028] italic">Nachweis-Charakter</span>
+                </h2>
+                <div className="max-w-md lg:pl-12 lg:border-l border-white/10 text-left">
+                  <p className="text-white/60 text-lg md:text-xl leading-relaxed font-light mb-6">
+                    Mobilität neu gedacht: Wir nutzen die exzellente Lagegunst, um den ökologischen Fußabdruck 
+                    zu minimieren und den Wohnwert durch Entsiegelung zu maximieren.
+                  </p>
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#C5A028]/10 border border-[#C5A028]/20">
+                    <MapPin className="w-3 h-3 text-[#C5A028]" />
+                    <span className="text-[10px] uppercase tracking-widest text-[#C5A028] font-bold">ÖPNV-Lage &lt; 350m</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </Reveal>
 
-        <MobileSwiper className="grid-cols-1 lg:grid-cols-3">
-            <UnifiedCard>
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center mb-8 border border-accent/20 text-accent">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 6h11"/><path d="M10 12h11"/><path d="M10 18h11"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
-            </div>
-            <h3 className="text-2xl font-serif text-white mb-4">Erschließung & Rettung</h3>
-            <p className="text-text-muted leading-7 text-sm font-light">
-                Interner Wohnweg (ca. 6 m) für Anlieferung/Entsorgung/Notdienste. Feuerwehrrettung über ein
-                Drehleiter-Konzept von außen; interne Bewegungsflächen sind entsprechend ausgelegt.
-            </p>
-            </UnifiedCard>
+        {/* MOBILITY STAGE */}
+        <Stage className="mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+            
+            {/* Left: The Proof (Der Nachweis) */}
+            <div className="lg:col-span-5 p-12 md:p-16 flex flex-col justify-between bg-white/[0.01]">
+              <div className="text-left">
+                 <div className="flex items-center gap-4 mb-10">
+                    <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028]">
+                       <Car className="w-5 h-5" />
+                    </div>
+                    <span className="text-[11px] uppercase tracking-[0.25em] text-white/40 font-bold">Stellplatznachweis</span>
+                 </div>
 
-            <UnifiedCard>
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center mb-8 border border-accent/20 text-accent">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg>
-            </div>
-            <h3 className="text-2xl font-serif text-white mb-6">Stellplatznachweis</h3>
-            <p className="text-text-muted text-xs mb-4">
-                Durch Lagegunst (ÖPNV &lt; 350 m) wurde der Bedarf von <span className="text-white font-bold">56 auf 42</span> Stellplätze reduziert.
-            </p>
-            <div className="space-y-1">
-                <MetricRow label="Pflichtstellplätze" value="42" />
-                <MetricRow label="Realisiert in TG" value="40" />
-                <MetricRow label="Ablöse (statt Bau)" value="2" />
-                <MetricRow label="Besucherplätze (Zusätzlich)" value="+ 6" border={false} />
-            </div>
-            </UnifiedCard>
+                 <h3 className="text-3xl md:text-4xl font-serif text-white mb-8">
+                    Effizienz durch <br />
+                    <span className="text-[#C5A028] italic">Lagegunst.</span>
+                 </h3>
 
-            <UnifiedCard>
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center mb-8 border border-accent/20 text-accent">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+                 <div className="space-y-6 mb-12">
+                    <div className="p-6 rounded-2xl bg-black/40 border border-white/5">
+                        <div className="flex justify-between items-baseline mb-4">
+                           <span className="text-white/40 text-[10px] uppercase tracking-widest font-bold">Soll-Bedarf (Standard)</span>
+                           <span className="text-white font-mono text-lg">56</span>
+                        </div>
+                        <div className="flex justify-between items-baseline">
+                           <span className="text-[#C5A028] text-[10px] uppercase tracking-widest font-bold">Nachweis (Reduziert)</span>
+                           <span className="text-[#C5A028] font-serif text-3xl">42</span>
+                        </div>
+                        <div className="mt-6 h-[2px] w-full bg-white/5 relative overflow-hidden">
+                           <div className="absolute left-0 top-0 h-full bg-[#C5A028] w-[75%]" />
+                        </div>
+                    </div>
+                    <p className="text-xs text-white/40 leading-relaxed italic">
+                       *Die Reduktion wurde durch die Nähe zur Haltestelle Meerbusch-Büderich (U-Bahn) 
+                       und das integrierte Mobilitätskonzept mit der Stadtverwaltung abgestimmt.
+                    </p>
+                 </div>
+              </div>
+
+              <div className="mt-auto">
+                 <div className="flex items-center justify-between p-5 rounded-xl bg-[#C5A028]/5 border border-[#C5A028]/10">
+                    <div>
+                       <p className="text-[10px] uppercase tracking-widest text-[#C5A028] font-bold mb-1">Status Nachweis</p>
+                       <p className="text-white font-serif text-lg">Abgestimmt & Bestätigt</p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-[#C5A028]" />
+                 </div>
+              </div>
             </div>
-            <h3 className="text-2xl font-serif text-white mb-4">Ökologie & Wasser</h3>
-            <p className="text-text-muted leading-7 text-sm font-light">
-                Extensive Dachbegrünung der Staffelgeschosse zur Verbesserung des Mikroklimas und zur
-                Regenwasserrückhaltung. E-Mobilitätsvorbereitung für alle Stellplätze.
-            </p>
-            </UnifiedCard>
-        </MobileSwiper>
+
+            {/* Right: The Features */}
+            <div className="lg:col-span-7 flex flex-col divide-y divide-white/10">
+               {mobilityFeatures.map((feature, i) => (
+                 <div key={i} className="p-10 md:p-14 group hover:bg-white/[0.03] transition-all duration-700 text-left">
+                    <div className="flex flex-col md:flex-row gap-8 items-start">
+                        <div className="w-16 h-16 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028] group-hover:bg-[#C5A028] group-hover:text-black transition-all duration-500 shadow-xl shrink-0">
+                           <feature.icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1">
+                           <h4 className="text-2xl md:text-3xl font-serif text-white mb-4 transition-transform group-hover:translate-x-1 duration-500">
+                             {feature.title}
+                           </h4>
+                           <p className="text-lg text-white/45 leading-relaxed font-light group-hover:text-white/70 transition-colors duration-500">
+                              {feature.desc}
+                           </p>
+                           <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+                              <span className="text-[10px] uppercase tracking-[0.2em] text-[#C5A028] font-bold">Detaillierte Planung</span>
+                              <ChevronRight className="w-4 h-4 text-[#C5A028]" />
+                           </div>
+                        </div>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </Stage>
+
       </div>
     </section>
   );

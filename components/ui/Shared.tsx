@@ -1,8 +1,103 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Download } from 'lucide-react';
 
-// --- NEW: GLOBAL MOUSE SPOTLIGHT ---
+// --- UPDATED: ULTRA-SUBTLE HAIRLINE DIVIDER ---
+// Minimalist tapering line that blends perfectly into the background
+export const SectionDivider: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <div className={`w-full flex justify-center ${className}`}>
+    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#C5A028]/25 to-transparent" />
+  </div>
+);
+
+// --- NEW: LUXURY "STAGE" WRAPPER ---
+export const Stage: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <div
+    className={[
+      "relative rounded-[32px] border border-white/10 overflow-hidden",
+      "bg-[radial-gradient(1200px_700px_at_20%_0%,rgba(197,160,40,0.12),transparent_55%),radial-gradient(900px_600px_at_80%_20%,rgba(255,255,255,0.06),transparent_60%)]",
+      "shadow-[0_30px_120px_-60px_rgba(0,0,0,0.9)]",
+      className || "",
+    ].join(" ")}
+  >
+    <div className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
+      style={{
+        backgroundImage:
+          "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"220\" height=\"220\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.9\" numOctaves=\"3\" stitchTiles=\"stitch\"/></filter><rect width=\"220\" height=\"220\" filter=\"url(%23n)\" opacity=\"0.9\"/></svg>')",
+      }}
+    />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+    <div className="relative">{children}</div>
+  </div>
+);
+
+// --- NEW: LUXURY TABS ---
+export const LuxuryTabs: React.FC<{
+  items: { id: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
+}> = ({ items, value, onChange }) => (
+  <div className="flex items-center gap-6 overflow-x-auto no-scrollbar">
+    {items.map((t) => {
+      const active = value === t.id;
+      return (
+        <button
+          key={t.id}
+          onClick={() => onChange(t.id)}
+          className={[
+            "relative py-2 text-[11px] uppercase tracking-[0.22em] font-bold transition-colors whitespace-nowrap",
+            active ? "text-white" : "text-white/45 hover:text-white/80",
+          ].join(" ")}
+        >
+          {t.label}
+          <span
+            className={[
+              "absolute left-0 right-0 -bottom-1 h-[2px] rounded-full transition-all duration-500",
+              active ? "bg-[#C5A028] opacity-100" : "bg-white/10 opacity-0",
+            ].join(" ")}
+          />
+        </button>
+      );
+    })}
+  </div>
+);
+
+// --- NEW: ROOM INDEX LIST ---
+export const RoomIndex: React.FC<{
+  rooms: { id: string; label: string; area: number; icon?: React.ReactNode }[];
+  activeId: string | null;
+  onPick: (id: string) => void;
+}> = ({ rooms, activeId, onPick }) => (
+  <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03]">
+    {rooms.map((r) => {
+      const active = activeId === r.id;
+      return (
+        <button
+          key={r.id}
+          onClick={() => onPick(r.id)}
+          className={[
+            "w-full px-5 py-4 flex items-center justify-between gap-4 text-left transition duration-300",
+            active ? "bg-[#C5A028]/10" : "hover:bg-white/[0.05]",
+          ].join(" ")}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <span className={active ? "text-[#C5A028]" : "text-white/45"}>
+              {r.icon ?? null}
+            </span>
+            <span className={["truncate", active ? "text-white font-medium" : "text-white/80"].join(" ")}>
+              {r.label}
+            </span>
+          </div>
+          <span className={["font-mono text-xs shrink-0", active ? "text-[#C5A028]" : "text-white/45"].join(" ")}>
+            {r.area.toFixed(1)} m²
+          </span>
+        </button>
+      );
+    })}
+  </div>
+);
+
+// --- GLOBAL MOUSE SPOTLIGHT ---
 export const GlobalSpotlight: React.FC = () => {
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
@@ -24,7 +119,7 @@ export const GlobalSpotlight: React.FC = () => {
   );
 };
 
-// --- NEW: AMBIENT PARTICLES ---
+// --- AMBIENT PARTICLES ---
 export const AmbientParticles: React.FC = () => {
   const particles = Array.from({ length: 20 }).map((_, i) => ({
     left: `${(i * 7) % 100}%`,
@@ -61,8 +156,7 @@ export const AmbientParticles: React.FC = () => {
   );
 };
 
-// --- NEW: MOBILE SWIPER WRAPPER ---
-// Transforms grids into swipeable carousels on mobile
+// --- MOBILE SWIPER WRAPPER ---
 export const MobileSwiper: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -72,15 +166,13 @@ export const MobileSwiper: React.FC<{ children: React.ReactNode; className?: str
     if (scrollRef.current) {
       const x = scrollRef.current.scrollLeft;
       const width = scrollRef.current.offsetWidth;
-      // Simple calculation to find current slide
-      const index = Math.round(x / (width * 0.7)); // 0.7 because cards are usually 85% width
+      const index = Math.round(x / (width * 0.7));
       setActiveIndex(Math.min(Math.max(0, index), childCount - 1));
     }
   };
 
   return (
     <div className="relative">
-      {/* The Scroll Container - className applied here for Grid Layouts */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
@@ -96,7 +188,6 @@ export const MobileSwiper: React.FC<{ children: React.ReactNode; className?: str
         ))}
       </div>
 
-      {/* Pagination Dots (Mobile Only) */}
       <div className="flex md:hidden justify-center gap-2 mt-4 absolute bottom-0 left-0 right-0 pointer-events-none">
         {Array.from({ length: childCount }).map((_, i) => (
           <div 
@@ -163,13 +254,13 @@ export const Reveal: React.FC<{ children: React.ReactNode; className?: string; d
 // --- THE UNIFIED CARD COMPONENT V2 ---
 export const UnifiedCard: React.FC<{ children: React.ReactNode; className?: string; noPadding?: boolean }> = ({ children, className = '', noPadding = false }) => {
   const divRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPos] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!divRef.current) return;
     const rect = divRef.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
@@ -255,7 +346,7 @@ export const Drawer: React.FC<{ isOpen: boolean; onClose: () => void; children: 
   );
 };
 
-// --- TABS ---
+// --- TABS (Legacy) ---
 export const Tabs: React.FC<{ tabs: string[]; activeTab: string; onChange: (tab: string) => void }> = ({ tabs, activeTab, onChange }) => {
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 mb-8 no-scrollbar">

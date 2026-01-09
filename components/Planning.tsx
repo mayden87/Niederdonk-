@@ -1,153 +1,176 @@
 
-import React, { useEffect, useRef } from 'react';
-import { SectionTag, Reveal, UnifiedCard, SectionBackground } from './ui/Shared';
-import { ShieldCheck, Check, FileCheck, Calendar, Stamp } from 'lucide-react';
+import React from 'react';
+import { SectionTag, Stage, Reveal, SectionBackground } from './ui/Shared';
+import { ShieldCheck, Check, FileCheck, Calendar, Stamp, ArrowUpRight, Leaf, ChevronRight } from 'lucide-react';
 
 const Planning: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const event = new CustomEvent('theme-change', { 
-          detail: entry.isIntersecting ? 'forest' : 'default' 
-        });
-        window.dispatchEvent(event);
-      },
-      { threshold: 0.4, rootMargin: "-10% 0px -10% 0px" } 
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        window.dispatchEvent(new CustomEvent('theme-change', { detail: 'default' }));
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
   const safetyPoints = [
     {
-      title: "Baurecht & Vorbescheid",
-      desc: "Rechtsgültiger Vorbescheid liegt vor. Verlängert bis Dezember 2026.",
+      title: "Bauvorbescheid",
+      desc: "Rechtsgültiger Vorbescheid liegt vor. Erstmalige Erteilung 2023, verlängert bis Dezember 2026.",
       icon: FileCheck,
       status: "Gültig"
     },
     {
-      title: "Arbeitskreis AK 34",
-      desc: "Positives Votum am 21.07.2025. Direktantrag ohne weitere Voranfrage möglich.",
+      title: "Arbeitskreis 34",
+      desc: "Positives Votum am 21.07.2025. Das städtebauliche Konzept ist als genehmigungsfähig bestätigt.",
       icon: Check,
       status: "Bestätigt"
     },
     {
-      title: "Kalkulations-Sicherheit",
-      desc: "Vollkostenkalkulation inkl. Spezialtiefbau, Wasserhaltung & Unterfangung.",
+      title: "Kalkulation",
+      desc: "Vollkostenkalkulation inkl. Spezialtiefbau, Wasserhaltung & Unterfangung der Nachbarn.",
       icon: ShieldCheck,
       status: "Fixiert"
     }
   ];
 
   return (
-    <section 
-      id="planning" 
-      ref={sectionRef}
-      className="relative w-full py-20 md:py-32"
-    >
-      {/* ATMOSPHERIC BACKGROUND - Blueprint / Tech */}
-      <SectionBackground 
-        src="https://www.transparenttextures.com/patterns/blueprint-grid.png" 
-        opacity={0.2} 
-        color="from-[#050505] via-[#0a150a]/40 to-[#050505]" 
-      />
+    <section id="planning" className="relative py-24 md:py-40 bg-[#050505] overflow-hidden">
+      {/* ATMOSPHERIC BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-green-950/10 blur-[120px] rounded-full opacity-30" />
+          <div className="absolute bottom-0 left-0 w-1/3 h-2/3 bg-green-900/5 blur-[100px] rounded-full opacity-20" />
+      </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
-          
-        {/* LEFT COLUMN: VISUAL (The "Certificate") */}
-        <div className="order-2 lg:order-1 flex justify-center lg:justify-end">
-           <Reveal className="w-full max-w-md aspect-[3/4] relative perspective-1000">
-              
-              {/* Back Glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[100%] bg-[#D4AF37]/5 rounded-full blur-[100px] pointer-events-none" />
-
-              {/* The Card - Using Unified Style for frame */}
-              <UnifiedCard className="bg-[#0c120c]/90 backdrop-blur-2xl hover:rotate-1 transition-transform duration-700">
-                  
-                  {/* Document Header */}
-                  <div className="flex justify-between items-start mb-12">
-                      <div className="flex flex-col gap-2">
-                          <div className="w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center bg-white/5">
-                             <div className="w-4 h-4 bg-[#D4AF37] rounded-sm" />
-                          </div>
-                          <span className="text-[9px] uppercase tracking-[0.3em] text-white/40 font-bold">Aktenzeichen 34-B</span>
-                      </div>
-                      <Stamp className="w-16 h-16 text-[#D4AF37] opacity-20 rotate-12" />
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+        
+        {/* Header - Aligned with Editorial Style */}
+        <Reveal>
+          <div className="mb-16 md:mb-28">
+            <SectionTag>02. Sicherheit</SectionTag>
+            <div className="flex flex-col lg:flex-row gap-12 mt-8 lg:items-end justify-between">
+                <h2 className="text-5xl md:text-8xl font-serif text-white leading-[0.9] max-w-4xl tracking-tighter text-left">
+                  Recht & <br />
+                  <span className="text-[#C5A028] italic">Ordnung</span>
+                </h2>
+                <div className="max-w-md lg:pl-12 lg:border-l border-white/10 text-left">
+                  <p className="text-white/60 text-lg md:text-xl leading-relaxed font-light mb-6">
+                    Ein Investment braucht festen Boden. Wir liefern Fakten: Verlängerter Bauvorbescheid 
+                    und positives Votum des Arbeitskreises.
+                  </p>
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                    <Leaf className="w-3 h-3 text-green-500" />
+                    <span className="text-[10px] uppercase tracking-widest text-green-400 font-bold">Zukunftssicher geplant</span>
                   </div>
-
-                  {/* Document Body */}
-                  <div className="flex-1 flex flex-col justify-center text-center">
-                      <p className="text-sm font-serif italic text-text-muted mb-4">Rechtsgrundlage nach</p>
-                      <h3 className="text-8xl font-serif font-bold text-white tracking-tighter leading-none mb-4">
-                          §34
-                      </h3>
-                      <p className="text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] font-bold">Baugesetzbuch</p>
-                      
-                      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
-                      
-                      <div className="inline-flex mx-auto items-center gap-3 px-6 py-2 rounded-full bg-[#1a2e1a] border border-[#2d4a2d]">
-                          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                          <span className="text-[10px] font-bold text-green-100 uppercase tracking-widest">Bauvorbescheid Positiv</span>
-                      </div>
-                  </div>
-
-                  {/* Document Footer */}
-                  <div className="mt-12 flex justify-between items-end border-t border-white/5 pt-6">
-                      <div>
-                          <p className="text-[9px] text-text-muted uppercase tracking-widest mb-1">Gültig bis</p>
-                          <p className="text-white font-mono text-sm">Dezember 2026</p>
-                      </div>
-                      <Calendar className="w-5 h-5 text-white/20" />
-                  </div>
-              </UnifiedCard>
-           </Reveal>
-        </div>
-
-        {/* RIGHT COLUMN: TEXT (Narrative) */}
-        <div className="order-1 lg:order-2 flex flex-col justify-center">
-            <Reveal delay={200}>
-                <div className="mb-8 md:mb-12 pl-6 border-l border-[#D4AF37]">
-                   <SectionTag>02. Sicherheit</SectionTag>
-                   <h2 className="text-4xl md:text-7xl font-serif font-medium text-white mt-4 md:mt-6 mb-6 md:mb-8 leading-none">
-                      Recht & <br />
-                      <span className="text-[#D4AF37] italic">Ordnung</span>
-                   </h2>
-                   <p className="text-base text-text-muted leading-7 max-w-md font-light">
-                      Ein Investment braucht festen Boden. Wir liefern Fakten: Verlängerter Bauvorbescheid und positives Votum des Arbeitskreises.
-                   </p>
                 </div>
+            </div>
+          </div>
+        </Reveal>
 
-                <div className="space-y-4">
-                   {safetyPoints.map((point, i) => (
-                       <div key={i} className="group flex items-center gap-6 p-6 rounded-3xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/5 cursor-default">
-                           <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center shrink-0 border border-white/5 group-hover:border-[#D4AF37]/50 group-hover:text-[#D4AF37] transition-colors">
-                               <point.icon className="w-5 h-5" />
+        {/* SECURITY STAGE */}
+        <Stage className="mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+            
+            {/* Visual Column: The Digital Badge/Certificate */}
+            <div className="lg:col-span-5 relative p-12 md:p-20 flex items-center justify-center bg-white/[0.01] overflow-hidden">
+               <div className="relative z-10 w-full max-w-sm">
+                  <div className="relative aspect-[3/4] rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl p-8 md:p-12 shadow-2xl flex flex-col justify-between group transition-transform duration-1000 hover:scale-[1.02]">
+                    <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                          <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">Dokument</p>
+                          <p className="text-xs font-mono text-white/60">QNL-CERT-81</p>
+                        </div>
+                        <Stamp className="w-12 h-12 text-[#C5A028] opacity-10 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+                    </div>
+
+                    <div className="text-center py-8">
+                        <p className="text-[10px] uppercase tracking-[0.4em] text-[#C5A028] font-bold mb-4">Rechtskraft</p>
+                        <h3 className="text-7xl md:text-8xl font-serif text-white tracking-tighter mb-2">§34</h3>
+                        <p className="text-sm italic text-white/40 font-serif">BauGB Konformität</p>
+                        <div className="w-12 h-[1px] bg-[#C5A028]/30 mx-auto my-8" />
+                    </div>
+
+                    <div className="flex justify-between items-end">
+                      <div className="space-y-1">
+                        <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">Gültig bis</p>
+                        <p className="text-lg font-serif text-white">12 / 2026</p>
+                      </div>
+                      <div className="w-10 h-10 rounded-full border border-[#C5A028]/20 flex items-center justify-center">
+                        <ShieldCheck className="w-5 h-5 text-[#C5A028]" />
+                      </div>
+                    </div>
+                  </div>
+               </div>
+               
+               {/* Background Decorative Element */}
+               <div className="absolute inset-0 opacity-10 pointer-events-none">
+                  <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#C5A028] blur-[120px] rounded-full" />
+               </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="lg:col-span-7 flex flex-col divide-y divide-white/10">
+               {safetyPoints.map((point, i) => (
+                 <div key={i} className="p-8 md:p-14 group hover:bg-white/[0.03] transition-all duration-700 text-left">
+                    <div className="flex flex-col md:flex-row gap-8 items-start">
+                        <div className="w-16 h-16 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028] group-hover:bg-[#C5A028] group-hover:text-black transition-all duration-500 shadow-xl shrink-0">
+                           <point.icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1">
+                           <div className="flex justify-between items-center mb-4">
+                              <h4 className="text-2xl md:text-3xl font-serif text-white">{point.title}</h4>
+                              <span className="text-[10px] uppercase tracking-widest text-green-500 font-bold px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5">
+                                 {point.status}
+                              </span>
                            </div>
-                           <div className="flex-1">
-                               <div className="flex justify-between items-center mb-1">
-                                   <h4 className="text-lg font-serif text-white group-hover:translate-x-1 transition-transform">{point.title}</h4>
-                                   <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]">{point.status}</span>
-                               </div>
-                               <p className="text-sm text-text-muted/60 group-hover:text-text-muted transition-colors leading-relaxed">
-                                   {point.desc}
-                               </p>
+                           <p className="text-lg text-white/45 leading-relaxed font-light group-hover:text-white/70 transition-colors duration-500">
+                              {point.desc}
+                           </p>
+                           <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+                              <span className="text-[10px] uppercase tracking-[0.2em] text-[#C5A028] font-bold">Prüfung abgeschlossen</span>
+                              <ChevronRight className="w-4 h-4 text-[#C5A028]" />
                            </div>
-                       </div>
-                   ))}
+                        </div>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </Stage>
+
+        {/* Cinematic Bottom Block */}
+        <Reveal delay={200}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            
+            <div className="relative group overflow-hidden rounded-[32px] border border-white/10 shadow-2xl aspect-video lg:aspect-[16/9]">
+                <img
+                    src="https://whhy.de/wp-content/uploads/2026/01/2.png"
+                    alt="Sicherheit und Beständigkeit"
+                    className="w-full h-full object-cover transition-transform duration-[15s] ease-linear group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                    <p className="text-white font-serif italic text-2xl drop-shadow-lg">"Sicherheit ist das Fundament <br/> jeder Wertschöpfung."</p>
+                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                        <ArrowUpRight className="w-5 h-5 text-white" />
+                    </div>
                 </div>
-            </Reveal>
-        </div>
+            </div>
+
+            <div className="text-left space-y-8">
+                <div className="flex items-center gap-4">
+                    <div className="h-[1px] w-12 bg-[#C5A028]"></div>
+                    <p className="text-[11px] text-[#C5A028] uppercase tracking-[0.4em] font-bold">Transparenz</p>
+                </div>
+                <h3 className="text-4xl md:text-5xl font-serif text-white leading-tight">
+                  Geprüfte Qualität. <br />
+                  <span className="text-[#C5A028] italic">Ohne Kompromisse.</span>
+                </h3>
+                <p className="text-lg text-white/50 leading-relaxed font-light">
+                  Die Integration in die parkähnliche Umgebung von Büderich ist nicht nur Design, 
+                  sondern Teil der Genehmigungsstrategie. Alle Unterlagen sind im gesicherten 
+                  Datenraum für qualifizierte Investoren hinterlegt.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <button className="flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all group/btn font-bold text-[10px] uppercase tracking-widest">
+                    Zertifikat laden <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </button>
+                </div>
+            </div>
+
+          </div>
+        </Reveal>
 
       </div>
     </section>

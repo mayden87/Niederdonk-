@@ -1,149 +1,235 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
 
-const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Menu,
+  X,
+  ArrowUpRight,
+  Phone,
+} from "lucide-react";
 
-  // Handle Scroll Effects
+type NavItem = {
+  href: string;
+  label: string;
+  number: string;
+};
+
+const NAV: NavItem[] = [
+  { href: "#mobility", label: "Mobilität", number: "03" },
+  { href: "#tech", label: "Technik", number: "04" },
+  { href: "#finance", label: "Kalkulation", number: "05" },
+  { href: "#sensitivity", label: "Sensitivität", number: "06" },
+  { href: "#market", label: "Markt", number: "07" },
+  { href: "#contact", label: "Kontakt", number: "08" },
+];
+
+function clamp(n: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function useLockBodyScroll(locked: boolean) {
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    if (!locked) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  }, [locked]);
+}
+
+function useScrollProgress() {
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      setProgress(clamp(y / max, 0, 1));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock Body Scroll
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
-  }, [isOpen]);
+  return { scrolled, progress };
+}
 
-  // Updated structure based on new flow:
-  // Overview -> Planning -> Mobility -> Tech -> Masterplan/Floorplans -> Finance -> Sensitivity -> Market -> Contact
-  const links = [
-    { href: '#overview', label: 'Überblick', number: '01' },
-    { href: '#planning', label: 'Sicherheit', number: '02' },
-    { href: '#mobility', label: 'Mobilität', number: '03' },
-    { href: '#tech', label: 'Technik', number: '04' },
-    { href: '#masterplan', label: 'Architektur', number: '05' },
-    { href: '#finance', label: 'Kalkulation', number: '06' },
-    { href: '#sensitivity', label: 'Sensitivität', number: '07' },
-    { href: '#market', label: 'Markt', number: '08' },
-  ];
+function useActiveSection(items: NavItem[]) {
+  const [activeHref, setActiveHref] = useState(items[0]?.href ?? "#mobility");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+            setActiveHref(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-15% 0px -65% 0px", threshold: [0.1, 0.5] }
+    );
+
+    items.forEach((item) => {
+      const el = document.getElementById(item.href.replace("#", ""));
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [items]);
+
+  return activeHref;
+}
+
+const Navbar: React.FC = () => {
+  const { scrolled, progress } = useScrollProgress();
+  const activeHref = useActiveSection(NAV);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  useLockBodyScroll(sheetOpen);
+
+  const activeItem = useMemo(
+    () => NAV.find((n) => n.href === activeHref) ?? NAV[0],
+    [activeHref]
+  );
+
+  const go = (href: string) => {
+    setSheetOpen(false);
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: y - 80, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
-      <nav 
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          scrolled 
-            ? 'bg-[#050505]/80 backdrop-blur-md py-4 border-b border-white/5' 
-            : 'bg-transparent py-6 md:py-8'
-        }`}
-      >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-50">
-          
-          {/* LOGO */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => { setIsOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/5 border border-white/10 flex items-center justify-center rounded-sm transition-colors duration-500 group-hover:border-[#C5A028]/50">
-               <span className="font-serif font-bold text-white text-sm md:text-base">Q</span>
-            </div>
-            <div className="flex flex-col">
-               <span className="font-bold text-white text-xs tracking-[0.15em] leading-none mb-1">QNL</span>
-               <span className="text-[9px] text-white/50 uppercase tracking-widest group-hover:text-[#C5A028] transition-colors">Meerbusch</span>
-            </div>
-          </div>
-
-          {/* DESKTOP NAV - Simplified for space */}
-          <div className="hidden xl:flex items-center gap-8">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-[11px] uppercase tracking-[0.15em] text-white/60 hover:text-white transition-colors duration-500"
-              >
-                {link.label}
-              </a>
-            ))}
+      <nav className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-700 ${scrolled ? "bg-black/60 backdrop-blur-xl border-b border-white/5" : "bg-transparent"}`}>
+        <div className="max-w-[1400px] mx-auto px-5 md:px-12">
+          {/* Main Container: Exact height match for Logo and Controls */}
+          <div className="h-[76px] md:h-[96px] flex items-center justify-between relative">
             
-            <a 
-              href="#contact"
-              className="ml-4 px-6 py-2 bg-[#C5A028] text-[#050505] text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-colors duration-500 rounded-sm"
-            >
-              Exposé
-            </a>
-          </div>
+            {/* Logo Group */}
+            <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3 md:gap-4 group h-full py-2">
+              <span className="font-serif text-3xl md:text-4xl text-white font-light tracking-tighter">
+                Q<span className="text-[#C5A028]">.</span>
+              </span>
+              <div className="flex flex-col leading-none text-left">
+                <span className="text-white font-serif text-[14px] md:text-[15px] tracking-tight uppercase">Niederdonk</span>
+                <span className="text-[8px] md:text-[9px] uppercase tracking-[0.45em] text-[#C5A028] font-bold mt-1">Living</span>
+              </div>
+            </button>
 
-          {/* BURGER (Visible on smaller screens including large laptops if space is tight) */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="xl:hidden relative w-10 h-10 flex flex-col justify-center items-end gap-1.5 group z-50"
-          >
-            <span className={`h-[1px] bg-white transition-all duration-300 ${isOpen ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`} />
-            <span className={`h-[1px] bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'w-4'}`} />
-            <span className={`h-[1px] bg-white transition-all duration-300 ${isOpen ? 'w-6 -rotate-45 -translate-y-2.5' : 'w-6'}`} />
-          </button>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-8 h-full">
+              {NAV.slice(0, 9).map((item) => (
+                <button
+                  key={item.href}
+                  onClick={() => go(item.href)}
+                  className={`text-[10px] uppercase tracking-widest font-bold transition-all duration-300 ${activeHref === item.href ? "text-[#C5A028]" : "text-white/40 hover:text-white"}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Controls Group - Perfectly Aligned */}
+            <div className="flex items-center gap-2.5 h-full py-2">
+              <div className="hidden md:block">
+                <a href="#contact" className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-bold text-white/80 hover:bg-white hover:text-black transition-all">Concierge</a>
+              </div>
+
+              {/* Mobile Pill - Synchronized & Smaller */}
+              <div className="lg:hidden flex items-center gap-2">
+                <button
+                  onClick={() => setSheetOpen(true)}
+                  className="h-10 flex items-center gap-3 bg-white/5 border border-white/10 rounded-full pl-3.5 pr-1.5 transition-all active:scale-95 group shadow-lg"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#C5A028] font-bold text-[10px] font-mono leading-none">{activeItem.number}</span>
+                    <div className="w-px h-2.5 bg-white/20" />
+                    <span className="text-white font-serif text-[13px] leading-none tracking-tight">{activeItem.label}</span>
+                  </div>
+                  <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center transition-transform group-hover:scale-110">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#C5A028]" />
+                  </div>
+                </button>
+
+                {/* Call Button - Next to Pill */}
+                <a
+                  href="tel:+49123456789"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-[#C5A028] text-black shadow-lg shadow-[#C5A028]/20 transition-transform active:scale-90"
+                  aria-label="Anrufen"
+                >
+                  <Phone className="w-4 h-4" strokeWidth={2.5} />
+                </a>
+              </div>
+            </div>
+
+            {/* Progress Bar (Hairline) */}
+            <div className="absolute bottom-0 left-0 h-[1px] bg-[#C5A028] transition-all duration-300 ease-out" style={{ width: `${progress * 100}%` }} />
+          </div>
         </div>
       </nav>
 
-      {/* MOBILE MENU OVERLAY */}
-      <div 
-        className={`fixed inset-0 z-[90] bg-[#050505]/95 backdrop-blur-2xl transition-all duration-[800ms] cubic-bezier(0.77, 0, 0.175, 1) ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-        }`}
-      >
-        <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay pointer-events-none" />
+      {/* MOBILE GLOSSY MENU */}
+      <div className={`fixed inset-0 z-[999] transition-all duration-700 ${sheetOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}>
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setSheetOpen(false)} />
         
-        <div className="h-full flex flex-col justify-center px-8 md:px-12 relative z-10 overflow-y-auto">
-           <div className="flex flex-col space-y-2 min-h-0 py-8">
-             {links.map((link, idx) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`group flex items-center justify-between py-4 border-b border-white/5 transition-all duration-700 transform ${
-                    isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                  }`}
-                  style={{ transitionDelay: `${100 + idx * 50}ms` }}
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-[10px] text-[#C5A028] font-mono opacity-60">/{link.number}</span>
-                    <span className="text-2xl md:text-3xl font-serif text-white font-light group-hover:pl-2 transition-all duration-500">
-                      {link.label}
-                    </span>
-                  </div>
-                </a>
-             ))}
-              {/* Konditionen Link */}
-             <a
-                  href="#contact"
-                  onClick={() => setIsOpen(false)}
-                  className={`group flex items-center justify-between py-4 border-b border-white/5 transition-all duration-700 transform ${
-                    isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                  }`}
-                  style={{ transitionDelay: `${100 + links.length * 50}ms` }}
-                >
-                   <div className="flex items-baseline gap-4">
-                    <span className="text-[10px] text-[#C5A028] font-mono opacity-60">/09</span>
-                    <span className="text-2xl md:text-3xl font-serif text-white font-light group-hover:pl-2 transition-all duration-500">
-                      Konditionen
-                    </span>
-                  </div>
-             </a>
-           </div>
+        <div className={`absolute inset-x-0 bottom-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] transform ${sheetOpen ? "translate-y-0" : "translate-y-full"}`}>
+          <div className="relative rounded-t-[40px] overflow-hidden border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+            
+            {/* Glossy Background with Blurred Image & Overlay */}
+            <div className="absolute inset-0 z-0">
+               <img src="https://whhy.de/wp-content/uploads/2026/01/2.png" className="w-full h-full object-cover blur-3xl opacity-40 scale-150 transform rotate-3" alt="" />
+               <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/90 to-black" />
+               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5" />
+            </div>
 
-           <div className={`mt-8 md:mt-12 transition-all duration-1000 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <button 
-                onClick={() => window.open('https://wa.me/49123456789', '_blank')}
-                className="w-full bg-white/5 border border-white/10 hover:bg-[#C5A028] hover:text-black hover:border-[#C5A028] text-white p-5 rounded-lg flex items-center justify-between group transition-all duration-500"
-              >
-                <div>
-                   <p className="text-[10px] uppercase font-bold tracking-widest opacity-60">Concierge</p>
-                   <p className="font-serif text-lg">WhatsApp Direkt</p>
-                </div>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </button>
-           </div>
+            <div className="relative z-10 p-6 pb-14">
+               {/* Drag Handle */}
+               <div className="w-10 h-1 bg-white/10 rounded-full mx-auto mb-10" />
+               
+               <div className="flex justify-between items-center mb-8 px-2">
+                  <div className="text-left">
+                    <p className="text-[9px] uppercase tracking-[0.4em] text-[#C5A028] font-bold mb-1">Auswahl</p>
+                    <h3 className="text-white font-serif text-2xl tracking-tight">Menü Index</h3>
+                  </div>
+                  <button onClick={() => setSheetOpen(false)} className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white/40 active:bg-white/10 transition-colors">
+                    <X className="w-5 h-5" />
+                  </button>
+               </div>
+
+               <div className="grid grid-cols-1 gap-1.5">
+                 {NAV.map((item) => {
+                   const active = item.href === activeHref;
+                   return (
+                     <button
+                       key={item.href}
+                       onClick={() => go(item.href)}
+                       className={`w-full py-4 px-5 flex items-center justify-between rounded-2xl transition-all duration-500 ${active ? "bg-[#C5A028]/15 border border-[#C5A028]/20" : "active:bg-white/5 border border-transparent hover:bg-white/[0.02]"}`}
+                     >
+                       <div className="flex items-center gap-4">
+                         <span className={`font-mono text-[10px] font-bold ${active ? "text-[#C5A028]" : "text-white/20"}`}>{item.number}</span>
+                         <span className={`font-serif text-[18px] transition-colors ${active ? "text-white" : "text-white/60"}`}>{item.label}</span>
+                       </div>
+                       {active && <ArrowUpRight className="w-4 h-4 text-[#C5A028] animate-in fade-in zoom-in duration-500" />}
+                     </button>
+                   );
+                 })}
+               </div>
+
+               <div className="mt-8 pt-8 border-t border-white/5 grid grid-cols-2 gap-3 px-2">
+                 <a href="tel:+49123456789" className="flex items-center justify-center gap-2 py-4 bg-[#C5A028] text-black rounded-2xl text-[11px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A028]/20">
+                   <Phone className="w-3.5 h-3.5" /> Call
+                 </a>
+                 <button onClick={() => setSheetOpen(false)} className="py-4 bg-white/5 text-white/80 rounded-2xl text-[11px] font-bold uppercase tracking-widest border border-white/10">
+                   Schließen
+                 </button>
+               </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
