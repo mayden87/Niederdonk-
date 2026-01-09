@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { SectionTag, UnifiedCard, Reveal } from './ui/Shared';
+import { SectionTag, UnifiedCard, Reveal, MobileSwiper } from './ui/Shared';
 import { MapPin, ShieldCheck, TrendingUp, Layers } from 'lucide-react';
 
 const ThesisPoint: React.FC<{ 
@@ -33,10 +33,9 @@ const Thesis: React.FC = () => {
       {/* Background Decor */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C5A028]/30 to-transparent" />
       
-      {/* Container to fix alignment issues - aligning with main content */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         
-        <div className="mb-16 md:mb-24 text-center max-w-4xl mx-auto">
+        <div className="mb-12 md:mb-24 text-center max-w-4xl mx-auto">
             <Reveal>
                 <SectionTag className="justify-center">Executive Summary</SectionTag>
                 <h2 className="text-4xl md:text-6xl font-serif font-medium text-white mt-6 mb-8 leading-tight">
@@ -49,35 +48,36 @@ const Thesis: React.FC = () => {
             </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {/* SWIPER FOR MOBILE */}
+        <MobileSwiper className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             <ThesisPoint 
-            delay={0}
-            icon={<MapPin className="w-6 h-6" />}
-            title="Prime Location"
-            desc="Meerbusch-Büderich zählt zu den begehrtesten Wohnlagen Deutschlands. Hohes Preisniveau, stabile Wertentwicklung und extrem begrenztes Angebot."
+              delay={0}
+              icon={<MapPin className="w-6 h-6" />}
+              title="Prime Location"
+              desc="Meerbusch-Büderich zählt zu den begehrtesten Wohnlagen Deutschlands. Hohes Preisniveau, stabile Wertentwicklung und extrem begrenztes Angebot."
             />
 
             <ThesisPoint 
-            delay={100}
-            icon={<ShieldCheck className="w-6 h-6" />}
-            title="Planungssicherheit"
-            desc="Rechtsgültiger Bauvorbescheid (verlängert bis 12/2026) und positives AK34-Votum. Kein B-Plan Risiko, Realisierung direkt nach §34 BauGB."
+              delay={100}
+              icon={<ShieldCheck className="w-6 h-6" />}
+              title="Planungssicherheit"
+              desc="Rechtsgültiger Bauvorbescheid (verlängert bis 12/2026) und positives AK34-Votum. Kein B-Plan Risiko, Realisierung direkt nach §34 BauGB."
             />
 
             <ThesisPoint 
-            delay={200}
-            icon={<Layers className="w-6 h-6" />}
-            title="Hybrider Produktmix"
-            desc="Diversifizierung durch 9 DHH, 7 RH und 16 ETW. Spricht sowohl solvente Eigennutzer (Häuser) als auch Kapitalanleger (Wohnungen) an."
+              delay={200}
+              icon={<Layers className="w-6 h-6" />}
+              title="Hybrider Produktmix"
+              desc="Diversifizierung durch 9 DHH, 7 RH und 16 ETW. Spricht sowohl solvente Eigennutzer (Häuser) als auch Kapitalanleger (Wohnungen) an."
             />
 
             <ThesisPoint 
-            delay={300}
-            icon={<TrendingUp className="w-6 h-6" />}
-            title="Performance"
-            desc="Konservativ kalkuliert mit ~34,9% Projekt-Rendite und einem Risikopuffer in den Baukosten. Global-Exit oder Einzelvertrieb möglich."
+              delay={300}
+              icon={<TrendingUp className="w-6 h-6" />}
+              title="Performance"
+              desc="Konservativ kalkuliert mit ~34,9% Projekt-Rendite und einem Risikopuffer in den Baukosten. Global-Exit oder Einzelvertrieb möglich."
             />
-        </div>
+        </MobileSwiper>
       </div>
     </section>
   );

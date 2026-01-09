@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { SectionTag } from './ui/Shared';
 import { PieChart, Zap, Maximize2, MapPin, TreeDeciduous, Car, DoorOpen } from 'lucide-react';
@@ -75,7 +76,7 @@ const Masterplan: React.FC = () => {
   return (
     <section id="masterplan" className="relative w-full py-20 md:py-32">
        
-       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+       <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* HEADER */}
           <div className="lg:col-span-12 mb-8 flex flex-col md:flex-row justify-between items-end gap-8">

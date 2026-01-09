@@ -1,5 +1,6 @@
+
 import React, { useEffect, useRef } from 'react';
-import { SectionTag, Reveal, UnifiedCard } from './ui/Shared';
+import { SectionTag, Reveal, UnifiedCard, SectionBackground } from './ui/Shared';
 import { ShieldCheck, Check, FileCheck, Calendar, Stamp } from 'lucide-react';
 
 const Planning: React.FC = () => {
@@ -55,7 +56,14 @@ const Planning: React.FC = () => {
       ref={sectionRef}
       className="relative w-full py-20 md:py-32"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
+      {/* ATMOSPHERIC BACKGROUND - Blueprint / Tech */}
+      <SectionBackground 
+        src="https://www.transparenttextures.com/patterns/blueprint-grid.png" 
+        opacity={0.2} 
+        color="from-[#050505] via-[#0a150a]/40 to-[#050505]" 
+      />
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
           
         {/* LEFT COLUMN: VISUAL (The "Certificate") */}
         <div className="order-2 lg:order-1 flex justify-center lg:justify-end">

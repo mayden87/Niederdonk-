@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de" class="scroll-smooth">
   <head>
@@ -88,6 +89,15 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #C5A028; 
+      }
+
+      /* HIDE SCROLLBAR UTILITY */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
       }
       
       /* Selection Color - Gold highlight */

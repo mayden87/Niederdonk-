@@ -16,11 +16,18 @@ import Market from './components/Market';
 import TextVersion from './components/TextVersion';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { GlobalSpotlight, AmbientParticles } from './components/ui/Shared';
+import { MobileDock } from './components/ui/MobileDock';
 
 function App() {
   return (
     <div className="antialiased min-h-screen bg-[#050505] text-text-main font-sans relative overflow-x-hidden selection:bg-[#C5A028]/30 selection:text-white">
       
+      {/* --- NEW: HIGH-END LIFE ELEMENTS --- */}
+      <GlobalSpotlight />
+      <AmbientParticles />
+      <MobileDock />
+
       {/* Navbar Fixed */}
       <Navbar />
 
@@ -34,7 +41,7 @@ function App() {
         <Thesis />
         
         {/* Main Content Container */}
-        <main className="max-w-[1400px] mx-auto px-6 md:px-12 pb-0 pt-0">
+        <main>
           <Overview />
           <Planning />
           <Roadmap />
