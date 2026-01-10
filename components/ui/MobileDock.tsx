@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   TrendingUp,
@@ -10,6 +11,10 @@ import {
   Copy,
   ExternalLink,
   ShieldCheck,
+  Download,
+  Lock,
+  Unlock,
+  Loader2
 } from "lucide-react";
 
 type ActiveTool = "calc" | "facts" | "status" | "contact";
@@ -68,14 +73,6 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
-function formatEUR(n: number) {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
-
 function formatEURCompactM(n: number) {
   // millions with 2 decimals
   const m = n / 1_000_000;
@@ -103,14 +100,6 @@ function usePrefersReducedMotion() {
 
 /**
  * “Investment-grade” Quick Model:
- * - Revenue = living_area * sale_price + parking_revenue
- * - Non-financing costs = base_non_fin - base_construction_total + scaled_construction_total
- * - Financing cost = (total_non_fin * debt_share * interest_rate * duration_years * 0.5)
- *   (0.5 approximates average outstanding debt across project duration)
- * - Total invest = non_fin + financing
- * - EBT = revenue - total_invest
- * - ROI = EBT / total_invest
- * - Break-even price = (total_invest - parking_revenue) / living_area
  */
 const ProfitTool: React.FC<{
   base: Required<MobileDockProps>["base"];
@@ -159,8 +148,6 @@ const ProfitTool: React.FC<{
   }, [base, salePrice, buildCost, equity, interest, duration]);
 
   const health = useMemo(() => {
-    // A subtle “confidence bar” purely for UX (not a rating)
-    // Maps buffer (€/m²) to 0..1 with a nice curve.
     const b = model.buffer;
     const x = clamp((b - 0) / 2000, 0, 1);
     return Math.pow(x, 0.8);
@@ -351,63 +338,125 @@ const Control: React.FC<{
   </div>
 );
 
-const StatusGrid: React.FC<{
-  availability: Availability;
-  reducedMotion: boolean;
-}> = ({ availability, reducedMotion }) => {
-  const total = availability.sold + availability.reserved + availability.free;
+// --- NEW: DOWNLOAD GATE ---
+const DownloadGate: React.FC = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', accepted: false });
 
-  // render max 32/40 etc; keep nice grid
-  const cells = useMemo(() => {
-    const sold = Array.from({ length: availability.sold }, () => "sold" as const);
-    const res = Array.from({ length: availability.reserved }, () => "reserved" as const);
-    const free = Array.from({ length: availability.free }, () => "free" as const);
-    return [...sold, ...res, ...free];
-  }, [availability]);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.accepted) return;
+    setIsLoading(true);
+    // Simulate API delay
+    setTimeout(() => {
+        setIsLoading(false);
+        setIsSubmitted(true);
+    }, 1200);
+  };
+
+  const downloads = [
+    { label: "QNL_Exposé_2026.pdf", size: "12 MB" },
+    { label: "Grundrisse_Gesamt.pdf", size: "8 MB" },
+    { label: "Preisliste_Q2.pdf", size: "0.5 MB" },
+  ];
+
+  if (isSubmitted) {
+    return (
+      <div className="animate-fade-up space-y-5">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+            <Unlock className="w-4 h-4 text-green-400" />
+            <div>
+                <p className="text-xs font-bold text-green-400 uppercase tracking-wide">Zugang gewährt</p>
+                <p className="text-[10px] text-white/60">Session aktiv für 30 Minuten.</p>
+            </div>
+        </div>
+
+        <div className="space-y-2">
+            <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold mb-2">Verfügbare Dokumente</p>
+            {downloads.map((doc, i) => (
+                <button 
+                  key={i}
+                  className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#C5A028]/30 transition-all group"
+                  onClick={() => window.open('#', '_blank')}
+                >
+                   <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-white/5 group-hover:bg-[#C5A028]/20 transition-colors">
+                          <FileText className="w-4 h-4 text-white/60 group-hover:text-[#C5A028]" />
+                      </div>
+                      <div className="text-left">
+                          <p className="text-xs font-mono text-white/90">{doc.label}</p>
+                          <p className="text-[9px] text-white/40">{doc.size}</p>
+                      </div>
+                   </div>
+                   <Download className="w-4 h-4 text-white/20 group-hover:text-white transition-colors" />
+                </button>
+            ))}
+        </div>
+        
+        <div className="pt-4 border-t border-white/5 text-center">
+            <p className="text-[9px] text-white/30">
+                Die Dokumente sind vertraulich zu behandeln.
+            </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="animate-fade-up">
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="text-white font-serif">Verkaufsstand</h4>
-        <div className="px-2 py-1 bg-white/5 rounded text-[10px] text-white/80 font-bold uppercase tracking-wider border border-white/10">
-          {availability.free} / {total} frei
-        </div>
-      </div>
+       <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+             <Lock className="w-4 h-4 text-[#C5A028]" />
+          </div>
+          <div>
+             <h4 className="text-white font-serif">Downloads</h4>
+             <p className="text-[10px] text-white/50">Bitte legitimieren Sie sich für den Zugang.</p>
+          </div>
+       </div>
 
-      <div className="grid grid-cols-8 gap-1.5 mb-4">
-        {cells.map((t, i) => (
-          <div
-            key={i}
-            className={[
-              "aspect-square rounded-[3px]",
-              t === "sold" ? "bg-[#C5A028]/90" : "",
-              t === "reserved" ? "bg-white/25" : "",
-              t === "free" ? "border border-white/20" : "",
-            ].join(" ")}
-            style={{
-              transform: reducedMotion ? undefined : "translateZ(0)",
-              transition: reducedMotion ? "none" : "transform 220ms ease, opacity 220ms ease",
-              opacity: t === "sold" ? 0.85 : 1,
-            }}
-          />
-        ))}
-      </div>
+       <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+             <input 
+                type="text" 
+                placeholder="Ihr Name"
+                required
+                value={form.name}
+                onChange={e => setForm({...form, name: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A028] transition-colors placeholder:text-white/20"
+             />
+             <input 
+                type="email" 
+                placeholder="Ihre E-Mail Adresse"
+                required
+                value={form.email}
+                onChange={e => setForm({...form, email: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C5A028] transition-colors placeholder:text-white/20"
+             />
+          </div>
 
-      <div className="grid grid-cols-3 gap-2 text-[9px] text-white/55 uppercase tracking-wider text-center">
-        <div className="bg-white/5 rounded py-2 border border-white/10">
-          <span className="text-[#C5A028] font-semibold">{availability.sold}</span> verkauft
-        </div>
-        <div className="bg-white/5 rounded py-2 border border-white/10">
-          <span className="text-white/80 font-semibold">{availability.reserved}</span> reserviert
-        </div>
-        <div className="bg-white/5 rounded py-2 border border-white/10 text-white">
-          <span className="text-white font-semibold">{availability.free}</span> frei
-        </div>
-      </div>
+          <label className="flex items-start gap-3 cursor-pointer group">
+              <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-all ${form.accepted ? 'bg-[#C5A028] border-[#C5A028]' : 'border-white/20 group-hover:border-white/40'}`}>
+                  {form.accepted && <Check className="w-3 h-3 text-black" />}
+              </div>
+              <input type="checkbox" className="hidden" checked={form.accepted} onChange={() => setForm({...form, accepted: !form.accepted})} />
+              <span className="text-[10px] text-white/50 leading-relaxed">
+                  Ich bestätige die Vertraulichkeit der Unterlagen und stimme der Kontaktaufnahme zu.
+              </span>
+          </label>
 
-      <p className="mt-3 text-[10px] text-white/45">
-        Hinweis: Status ist indikativ (Marketing/Vertrieb). Finaler Stand im Datenraum.
-      </p>
+          <button 
+             type="submit"
+             disabled={!form.accepted || isLoading}
+             className={`w-full py-3.5 rounded-xl font-bold uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 transition-all ${
+                form.accepted && !isLoading 
+                ? 'bg-[#C5A028] text-black hover:bg-white' 
+                : 'bg-white/5 text-white/20 cursor-not-allowed'
+             }`}
+          >
+             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Zugang freischalten'}
+          </button>
+       </form>
     </div>
   );
 };
@@ -517,46 +566,6 @@ const AccessCard: React.FC<{
             <Phone className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase tracking-widest">
               Anruf
-            </span>
-          </div>
-        </button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          onClick={() => open(exposePdfUrl)}
-          disabled={!exposePdfUrl}
-          className={[
-            "rounded-2xl p-4 border transition active:scale-[0.99]",
-            exposePdfUrl
-              ? "bg-white/5 text-white border-white/10 hover:bg-white/10"
-              : "bg-white/5 text-white/30 border-white/10 cursor-not-allowed",
-          ].join(" ")}
-        >
-          <div className="flex flex-col items-center justify-center gap-2">
-            <FileText className="w-5 h-5" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">
-              Exposé
-            </span>
-          </div>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => open(dataRoomRequestUrl)}
-          disabled={!dataRoomRequestUrl}
-          className={[
-            "rounded-2xl p-4 border transition active:scale-[0.99]",
-            dataRoomRequestUrl
-              ? "bg-black/40 text-white border-white/10 hover:bg-black/50"
-              : "bg-white/5 text-white/30 border-white/10 cursor-not-allowed",
-          ].join(" ")}
-        >
-          <div className="flex flex-col items-center justify-center gap-2">
-            <ExternalLink className="w-5 h-5" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">
-              Datenraum
             </span>
           </div>
         </button>
@@ -710,7 +719,7 @@ export const MobileDock: React.FC<MobileDockProps> = (props) => {
           {[
             { id: "calc", label: "Rendite", icon: TrendingUp },
             { id: "facts", label: "Fakten", icon: FileText },
-            { id: "status", label: "Status", icon: Check },
+            { id: "status", label: "Downloads", icon: Download },
             { id: "contact", label: "Kontakt", icon: Phone },
           ].map((t) => {
             const isActive = activeTool === (t.id as ActiveTool);
@@ -741,7 +750,7 @@ export const MobileDock: React.FC<MobileDockProps> = (props) => {
           )}
           {activeTool === "facts" && <FactSheet base={base} />}
           {activeTool === "status" && (
-            <StatusGrid availability={availability} reducedMotion={reducedMotion} />
+            <DownloadGate />
           )}
           {activeTool === "contact" && (
             <AccessCard

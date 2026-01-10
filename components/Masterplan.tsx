@@ -201,7 +201,7 @@ const Masterplan: React.FC = () => {
             
             <div className="relative group overflow-hidden rounded-[32px] border border-white/10 shadow-2xl aspect-video lg:aspect-[16/9]">
                 <img
-                    src="https://whhy.de/wp-content/uploads/2026/01/4.png"
+                    src="https://whhy.de/wp-content/uploads/2026/01/5.png"
                     alt="Städtebauliches Gefüge"
                     className="w-full h-full object-cover transition-transform duration-[15s] ease-linear group-hover:scale-110"
                 />

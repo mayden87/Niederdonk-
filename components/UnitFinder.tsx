@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { SectionTag, Drawer, MetricRow, UnifiedCard } from './ui/Shared';
 import { Filter, ArrowRight, Check, CheckCircle2 } from 'lucide-react';
@@ -118,7 +119,7 @@ const UnitFinder: React.FC = () => {
 
                         {/* Main Image placeholder */}
                         <div className="w-full aspect-video bg-white/5 rounded-xl border border-white/10 flex items-center justify-center overflow-hidden relative group">
-                            <img src="https://whhy.de/wp-content/uploads/2026/01/4.png" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000" />
+                            <img src="https://whhy.de/wp-content/uploads/2026/01/6.png" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000" />
                             <span className="relative z-10 text-xs uppercase tracking-widest text-white bg-black/50 backdrop-blur px-3 py-1 rounded">Beispielansicht</span>
                         </div>
 

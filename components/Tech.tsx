@@ -34,42 +34,67 @@ const Tech: React.FC = () => {
         <Stage className="mb-24">
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
             
-            {/* Block 1: Einfamilienhäuser */}
-            <div className="p-8 md:p-16 group hover:bg-white/[0.02] transition-colors duration-500 flex flex-col text-left">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028] group-hover:scale-110 transition-transform">
-                  <Home className="w-5 h-5" />
-                </div>
-                <span className="text-[11px] uppercase tracking-[0.25em] text-white/40 font-bold">Wohnformen</span>
+            {/* Block 1: Einfamilienhäuser (KEIN HINTERGRUND -> BILDER EINFÜGEN) */}
+            <div className="p-8 md:p-16 group hover:bg-white/[0.02] transition-colors duration-500 flex flex-col text-left justify-between">
+              <div>
+                  <div className="flex items-center gap-4 mb-10">
+                    <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028] group-hover:scale-110 transition-transform">
+                      <Home className="w-5 h-5" />
+                    </div>
+                    <span className="text-[11px] uppercase tracking-[0.25em] text-white/40 font-bold">Wohnformen</span>
+                  </div>
+                  
+                  <h3 className="text-3xl font-serif text-white mb-8">Einfamilienhäuser & <br/>Wohnungen</h3>
+                  
+                  <div className="space-y-8 mb-12">
+                    <div className="flex items-start gap-6">
+                      <div className="text-4xl font-serif text-[#C5A028] opacity-50">09</div>
+                      <div>
+                        <p className="text-white font-medium mb-1">Doppelhaushälften</p>
+                        <p className="text-sm text-white/50 leading-relaxed">ca. 140 m² Wohnfläche, Grundmaß ca. 5,5 m × 11,5 m.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-6">
+                      <div className="text-4xl font-serif text-[#C5A028] opacity-50">07</div>
+                      <div>
+                        <p className="text-white font-medium mb-1">Reihenhäuser</p>
+                        <p className="text-sm text-white/50 leading-relaxed">ca. 120 m² Wohnfläche, Grundmaß ca. 5,5 m × 10 m.</p>
+                      </div>
+                    </div>
+                  </div>
               </div>
-              
-              <h3 className="text-3xl font-serif text-white mb-8">Einfamilienhäuser & <br/>Wohnungen</h3>
-              
-              <div className="space-y-8 flex-1">
-                <div className="flex items-start gap-6">
-                  <div className="text-4xl font-serif text-[#C5A028] opacity-50">09</div>
-                  <div>
-                    <p className="text-white font-medium mb-1">Doppelhaushälften</p>
-                    <p className="text-sm text-white/50 leading-relaxed">ca. 140 m² Wohnfläche, Grundmaß ca. 5,5 m × 11,5 m.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="text-4xl font-serif text-[#C5A028] opacity-50">07</div>
-                  <div>
-                    <p className="text-white font-medium mb-1">Reihenhäuser</p>
-                    <p className="text-sm text-white/50 leading-relaxed">ca. 120 m² Wohnfläche, Grundmaß ca. 5,5 m × 10 m.</p>
-                  </div>
-                </div>
 
-                <div className="pt-8 border-t border-white/5 mt-auto">
-                   <p className="text-xs text-white/40 uppercase tracking-widest font-bold mb-4">Ergänzt durch</p>
-                   <p className="text-lg text-white font-serif">16 Wohnungen in zwei Mehrfamilienhäusern.</p>
-                </div>
+              {/* NEW IMAGES SECTION - Under 300px height, one larger, one smaller, NO GRAYSCALE */}
+              <div className="mt-auto pt-6 border-t border-white/5">
+                 <p className="text-xs text-white/40 uppercase tracking-widest font-bold mb-6">Impressionen</p>
+                 <div className="grid grid-cols-12 gap-4 h-64 w-full">
+                    {/* Larger Image (Span 7) - Image 5 - Zoomed to hide logo */}
+                    <div className="col-span-7 h-full relative rounded-2xl overflow-hidden border border-white/10 hover:border-[#C5A028]/30 transition-all duration-700">
+                        <img 
+                          src="https://whhy.de/wp-content/uploads/2026/01/5.png" 
+                          alt="Außenansicht Detail" 
+                          className="w-full h-full object-cover transition-transform duration-1000 scale-[1.3] hover:scale-[1.4]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40" />
+                        <span className="absolute bottom-3 left-3 text-[9px] uppercase tracking-widest text-white/90 font-bold">Perspektive A</span>
+                    </div>
+                    
+                    {/* Smaller Image (Span 5) - Image 7 */}
+                    <div className="col-span-5 h-full relative rounded-2xl overflow-hidden border border-white/10 hover:border-[#C5A028]/30 transition-all duration-700">
+                        <img 
+                          src="https://whhy.de/wp-content/uploads/2026/01/7.png" 
+                          alt="Innenansicht Detail" 
+                          className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40" />
+                        <span className="absolute bottom-3 left-3 text-[9px] uppercase tracking-widest text-white/90 font-bold">Perspektive B</span>
+                    </div>
+                 </div>
               </div>
             </div>
 
-            {/* Block 2: Baugrund & Tiefbau */}
+            {/* Block 2: Baugrund & Tiefbau (HAS BACKGROUND) */}
             <div className="p-8 md:p-16 bg-[#C5A028]/[0.02] group hover:bg-[#C5A028]/[0.04] transition-colors duration-500 text-left">
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-[#C5A028] group-hover:scale-110 transition-transform">
@@ -114,6 +139,14 @@ const Tech: React.FC = () => {
 
           </div>
         </Stage>
+
+        <Reveal delay={400}>
+          <div className="mt-16 text-center">
+            <p className="text-[10px] font-mono text-white/30 uppercase tracking-[0.3em]">
+              Grundlage: Baugrundgutachten Dr. Spang / Statische Vorbemessung
+            </p>
+          </div>
+        </Reveal>
 
       </div>
     </section>

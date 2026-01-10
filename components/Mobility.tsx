@@ -134,6 +134,14 @@ const Mobility: React.FC = () => {
           </div>
         </Stage>
 
+        <Reveal delay={400}>
+          <div className="mt-16 text-center">
+            <p className="text-[10px] font-mono text-white/30 uppercase tracking-[0.3em]">
+              Grundlage: Stellplatzsatzung Meerbusch / Mobilitätsgutachten (Bestätigt)
+            </p>
+          </div>
+        </Reveal>
+
       </div>
     </section>
   );

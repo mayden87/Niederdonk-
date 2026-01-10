@@ -75,6 +75,34 @@ const Market: React.FC = () => {
                        <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-white/40">Sicher</span>
                     </div>
                   </div>
+
+                  <div className="group">
+                    <h4 className="text-xl font-serif text-white mb-4 flex items-center gap-3">
+                      <span className="text-[#C5A028] text-sm font-mono">/03</span> 
+                      Family Offices (Global)
+                    </h4>
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed mb-6">
+                      Institutionelle Investoren mit Interesse an Block-Transaktionen (Global-Exit) zur Portfolio-Beimischung.
+                    </p>
+                    <div className="flex gap-2">
+                       <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-white/40">Asset-Deal</span>
+                       <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-white/40">Volumen</span>
+                    </div>
+                  </div>
+
+                  <div className="group">
+                    <h4 className="text-xl font-serif text-white mb-4 flex items-center gap-3">
+                      <span className="text-[#C5A028] text-sm font-mono">/04</span> 
+                      Expatriates (International)
+                    </h4>
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed mb-6">
+                      Internationale Führungskräfte am Standort Düsseldorf, die wartungsarmen Neubau in Top-Lage suchen.
+                    </p>
+                    <div className="flex gap-2">
+                       <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-white/40">Relocation</span>
+                       <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-white/40">Turnkey</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -151,6 +179,14 @@ const Market: React.FC = () => {
 
           </div>
         </Stage>
+
+        <Reveal delay={400}>
+          <div className="mt-16 text-center">
+            <p className="text-[10px] font-mono text-white/30 uppercase tracking-[0.3em]">
+              Grundlage: Markteinwertung & Wettbewerbsanalyse / Bodenrichtwertkarte Meerbusch
+            </p>
+          </div>
+        </Reveal>
 
       </div>
     </section>

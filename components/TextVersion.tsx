@@ -50,20 +50,20 @@ const TextVersion: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4 text-left">
-                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Fassade</span>
+                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Perspektive B</span>
               </div>
             </div>
 
             {/* Bottom Mid-Right - Square (1x1) */}
             <div className="col-span-1 row-span-1 relative group overflow-hidden rounded-[24px] border border-white/10 shadow-xl">
               <img 
-                src="https://whhy.de/wp-content/uploads/2026/01/4.png" 
+                src="https://whhy.de/wp-content/uploads/2026/01/6.png" 
                 alt="Interior Detail" 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-1000 scale-125 group-hover:scale-[1.35]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4 text-left">
-                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Licht</span>
+                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Perspektive C</span>
               </div>
             </div>
 
@@ -76,7 +76,7 @@ const TextVersion: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4 text-left">
-                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Konzept</span>
+                <span className="text-[9px] uppercase tracking-widest text-white/50 font-bold">Perspektive D</span>
               </div>
             </div>
           </div>

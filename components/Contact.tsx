@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
     <section id="contact" className="relative py-24 md:py-40 bg-[#050505] overflow-hidden">
       {/* ATMOSPHERIC BACKGROUND */}
       <SectionBackground 
-         src="https://whhy.de/wp-content/uploads/2026/01/4.png" 
+         src="https://whhy.de/wp-content/uploads/2026/01/7.png" 
          opacity={0.3} 
          color="from-[#050505] via-transparent to-[#050505]" 
       />

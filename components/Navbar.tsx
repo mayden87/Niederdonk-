@@ -57,22 +57,29 @@ function useScrollProgress() {
 }
 
 function useActiveSection(items: NavItem[]) {
-  const [activeHref, setActiveHref] = useState(items[0]?.href ?? "#mobility");
+  const [activeHref, setActiveHref] = useState("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+          if (entry.isIntersecting) {
             setActiveHref(`#${entry.target.id}`);
           }
         });
       },
-      { rootMargin: "-15% 0px -65% 0px", threshold: [0.1, 0.5] }
+      { 
+        // Create a narrow detection zone in the middle of the screen
+        // Top 45% and Bottom 45% are ignored. 
+        // An element is active when it crosses the center 10% strip.
+        rootMargin: "-45% 0px -45% 0px", 
+        threshold: 0 
+      }
     );
 
     items.forEach((item) => {
-      const el = document.getElementById(item.href.replace("#", ""));
+      const id = item.href.replace("#", "");
+      const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
@@ -105,7 +112,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-700 ${scrolled ? "bg-black/60 backdrop-blur-xl border-b border-white/5" : "bg-transparent"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-[120] border-b transition-all duration-700 ${scrolled ? "bg-black/60 backdrop-blur-xl border-white/5" : "bg-transparent border-transparent"}`}>
         <div className="max-w-[1400px] mx-auto px-5 md:px-12">
           {/* Main Container: Exact height match for Logo and Controls */}
           <div className="h-[76px] md:h-[96px] flex items-center justify-between relative">

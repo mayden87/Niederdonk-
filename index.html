@@ -19,7 +19,7 @@
         theme: {
           extend: {
             colors: {
-              accent: '#C5A028', // Slightly deeper, richer gold
+              accent: '#C5A028', 
               'bg-main': '#050505',
               'surface': '#0A0A0A',
               'text-main': '#EAEAEA',
@@ -37,9 +37,12 @@
               'widest': '0.25em',
             },
             animation: {
-              'blob': 'blob 25s infinite', // Slower
+              'blob': 'blob 25s infinite', 
               'fade-up': 'fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
               'reveal-mask': 'revealMask 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+              'breathe': 'breathe 20s ease-in-out infinite',
+              'float-slow': 'float 8s ease-in-out infinite',
+              'pulse-slow': 'pulseGlow 4s ease-in-out infinite',
             },
             keyframes: {
               blob: {
@@ -55,6 +58,18 @@
               revealMask: {
                 '0%': { transform: 'translateY(100%)' },
                 '100%': { transform: 'translateY(0)' },
+              },
+              breathe: {
+                '0%, 100%': { transform: 'scale(1.0) translate(0, 0)' },
+                '50%': { transform: 'scale(1.1) translate(-1%, -1%)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              pulseGlow: {
+                '0%, 100%': { opacity: '0.4' },
+                '50%': { opacity: '0.8' },
               }
             }
           }
@@ -70,12 +85,10 @@
         -moz-osx-font-smoothing: grayscale;
       }
       
-      /* Smooth Scrolling logic is handled by 'scroll-smooth' class but we refine anchors */
       html {
-        scroll-padding-top: 100px; /* Offset for fixed header */
+        scroll-padding-top: 100px; 
       }
 
-      /* Consistent Scrollbar - Ultra Thin Luxury */
       ::-webkit-scrollbar {
         width: 4px;
       }
@@ -90,22 +103,19 @@
         background: #C5A028; 
       }
 
-      /* HIDE SCROLLBAR UTILITY */
       .no-scrollbar::-webkit-scrollbar {
           display: none;
       }
       .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;  
+          scrollbar-width: none; 
       }
       
-      /* Selection Color - Gold highlight */
       ::selection {
         background: rgba(197, 160, 40, 0.2);
         color: #fff;
       }
 
-      /* Utilities for Masking Text Animations */
       .mask-container {
         overflow: hidden;
         display: block;

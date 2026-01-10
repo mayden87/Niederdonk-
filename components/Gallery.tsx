@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { SectionTag, Tabs } from './ui/Shared';
 import { ArrowUpRight } from 'lucide-react';
@@ -5,15 +6,16 @@ import { ArrowUpRight } from 'lucide-react';
 const images = {
   exterior: [
     "https://whhy.de/wp-content/uploads/2026/01/1.png",
-    "https://whhy.de/wp-content/uploads/2026/01/2.png"
+    "https://whhy.de/wp-content/uploads/2026/01/2.png",
+    "https://whhy.de/wp-content/uploads/2026/01/5.png"
   ],
   interior: [
-    "https://whhy.de/wp-content/uploads/2026/01/4.png", // Using provided assets
-    "https://whhy.de/wp-content/uploads/2026/01/1.png"  // Recycling for demo
+    "https://whhy.de/wp-content/uploads/2026/01/6.png",
+    "https://whhy.de/wp-content/uploads/2026/01/7.png"
   ],
   material: [
-     "https://www.transparenttextures.com/patterns/stardust.png", // Abstract placeholder
-     "https://whhy.de/wp-content/uploads/2026/01/2.png"
+     "https://whhy.de/wp-content/uploads/2026/01/5.png",
+     "https://whhy.de/wp-content/uploads/2026/01/6.png"
   ]
 };
 

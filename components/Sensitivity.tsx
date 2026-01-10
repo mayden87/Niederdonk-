@@ -88,17 +88,17 @@ const Sensitivity: React.FC = () => {
 
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
                 
-                {/* Header - Centered on mobile */}
+                {/* Header - Left Aligned on Mobile */}
                 <Reveal>
-                    <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-center md:items-end gap-12 text-center md:text-left">
+                    <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-12 text-left">
                         <div className="w-full md:w-auto">
-                            <SectionTag className="justify-center md:justify-start">05. Sensitivität</SectionTag>
+                            <SectionTag>05. Sensitivität</SectionTag>
                             <h2 className="text-4xl md:text-7xl font-serif text-white leading-[0.95] mt-8">
                                 Investment <br />
                                 <span className="text-[#C5A028] italic">Controls</span>
                             </h2>
                         </div>
-                        <div className="max-w-xl md:pl-10 md:border-l border-white/10 w-full md:w-auto flex flex-col items-center md:items-start">
+                        <div className="max-w-xl md:pl-10 md:border-l border-white/10 w-full md:w-auto flex flex-col items-start">
                             <p className="text-white/55 text-lg leading-relaxed mb-8">
                                 Simulieren Sie verschiedene Marktszenarien in Echtzeit. Überprüfen Sie die Robustheit des Modells gegenüber Kostensteigerungen oder Zinsänderungen.
                             </p>
@@ -244,6 +244,31 @@ const Sensitivity: React.FC = () => {
                         </div>
                     </div>
                 </Stage>
+
+                {/* NEW: Image Grid - Small Left / Big Right */}
+                <Reveal delay={200} className="mt-12 md:mt-24">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-4 md:pb-0 md:grid md:grid-cols-12 md:gap-6 md:mx-0 md:px-0 no-scrollbar">
+                        {/* Image Left - Smaller (Span 4) */}
+                        <div className="min-w-[85vw] md:min-w-0 snap-center md:col-span-4 relative group overflow-hidden rounded-[32px] border border-white/10 shadow-2xl h-[200px] md:h-[300px]">
+                            <img 
+                                src="https://whhy.de/wp-content/uploads/2026/01/7.png" 
+                                alt="Detail Ansicht" 
+                                className="w-full h-full object-cover transition-transform duration-[20s] ease-out group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+                        </div>
+
+                        {/* Image Right - Bigger (Span 8) */}
+                        <div className="min-w-[85vw] md:min-w-0 snap-center md:col-span-8 relative group overflow-hidden rounded-[32px] border border-white/10 shadow-2xl h-[200px] md:h-[300px]">
+                            <img 
+                                src="https://whhy.de/wp-content/uploads/2026/01/2.png" 
+                                alt="Gesamtansicht" 
+                                className="w-full h-full object-cover transition-transform duration-[20s] ease-out group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+                        </div>
+                    </div>
+                </Reveal>
 
             </div>
         </section>
