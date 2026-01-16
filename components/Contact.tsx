@@ -6,6 +6,7 @@ import { FileText, Lock, ArrowRight, ShieldCheck, Download, Check, Loader2, Unlo
 const Contact: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
   // Form State
   const [formData, setFormData] = useState({
@@ -31,17 +32,36 @@ const Contact: React.FC = () => {
     setAgreements({ ...agreements, [key]: !agreements[key] });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     if (!agreements.confidentiality || !agreements.commission || !agreements.contactConsent) return;
     
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const response = await fetch('/send_mail.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        const errorData = await response.json();
+        setErrorMessage("Fehler beim Senden: " + (errorData.message || "Unbekannter Fehler"));
+        // Fallback für Demo-Zwecke, falls PHP nicht läuft:
+        // setIsSubmitted(true); 
+      }
+    } catch (error) {
+      console.error("Netzwerkfehler:", error);
+      setErrorMessage("Netzwerkfehler. Bitte versuchen Sie es später erneut.");
+    } finally {
       setIsLoading(false);
-      setIsSubmitted(true);
-    }, 1500);
+    }
   };
 
   const isFormValid = 
@@ -177,6 +197,12 @@ const Contact: React.FC = () => {
                     </label>
 
                   </div>
+
+                  {errorMessage && (
+                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                       {errorMessage}
+                    </div>
+                  )}
 
                   <button 
                     type="submit"

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Maximize, FileCheck, Home, TrendingUp } from 'lucide-react';
+import { Maximize, Wallet, Home, TrendingUp } from 'lucide-react';
 import { Stage } from './ui/Shared';
 
 const Hero: React.FC = () => {
@@ -134,28 +134,34 @@ const Hero: React.FC = () => {
                     </div>
                 </div>
 
-                {/* COL 2: Baurecht */}
+                {/* COL 2: Kaufpreis (Formerly Baurecht) */}
                 <div className="p-8 group hover:bg-white/[0.05] transition-colors duration-500 flex flex-col justify-between">
                     <div>
                         <div className="flex items-center gap-3 mb-6 text-[#C5A028]">
-                            <FileCheck className="w-5 h-5" />
-                            <span className="text-xs font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Baurecht</span>
+                            <Wallet className="w-5 h-5" />
+                            <span className="text-xs font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Investment</span>
                         </div>
-                        <h3 className="text-2xl font-serif text-white mb-2">
-                            §34 BauGB
+                        
+                        <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Grundstückskaufpreis</p>
+                        <h3 className="text-4xl md:text-5xl font-serif text-white mb-2 tracking-tight">
+                            4.250.000 €
                         </h3>
-                        <p className="text-sm text-white/50 mb-4">Genehmigungsfähig</p>
-                        <p className="text-xs text-white/60 leading-relaxed mb-6">
-                            Rechtsgültiger Bauvorbescheid liegt vor (bis 12/2026). Positives Votum des Arbeitskreises AK34 bestätigt Planungssicherheit.
+                        <p className="text-xs text-white/40 leading-relaxed mb-6">
+                            Das Grundstück wird lastenfrei übertragen.
                         </p>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/5 border border-green-500/10 mt-auto group-hover:bg-green-500/10 transition-colors">
-                        <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-green-400">Status</span>
+
+                        <div className="w-full h-px bg-white/10 mb-6" />
+
+                        <div className="space-y-3">
+                             <div className="flex justify-between items-center">
+                                <span className="text-xs text-white/40">Faktor (auf GKI)</span>
+                                <span className="text-xs text-white font-mono">~3,9x</span>
+                             </div>
+                             <div className="flex justify-between items-center">
+                                <span className="text-xs text-white/40">Anteil GKI</span>
+                                <span className="text-xs text-white font-mono">~25,6%</span>
+                             </div>
                         </div>
-                        <span className="text-white text-xs font-medium">Bestätigt</span>
                     </div>
                 </div>
 

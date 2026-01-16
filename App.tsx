@@ -20,7 +20,11 @@ function App() {
       
       {/* --- LAYER 1: ATMOSPHERE (Top Level) --- */}
       <GlobalSpotlight />
-      <MobileDock />
+      
+      {/* 
+         MOBILE DOCK DISABLED 
+         <MobileDock /> 
+      */}
 
       {/* Navbar Fixed */}
       <Navbar />
