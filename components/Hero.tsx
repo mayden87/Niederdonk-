@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Maximize, Wallet, Home, TrendingUp } from 'lucide-react';
+import { Maximize, Wallet, Home, TrendingUp, Mail } from 'lucide-react';
 import { Stage } from './ui/Shared';
 
 const Hero: React.FC = () => {
@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <header className="relative min-h-[100svh] w-full flex flex-col items-center overflow-visible z-20 bg-[#050505]">
+    <header id="home" className="relative min-h-[100svh] w-full flex flex-col items-center overflow-visible z-20 bg-[#050505]">
       
       {/* Cinematic Background - KEN BURNS EFFECT */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -152,16 +152,13 @@ const Hero: React.FC = () => {
 
                         <div className="w-full h-px bg-white/10 mb-6" />
 
-                        <div className="space-y-3">
-                             <div className="flex justify-between items-center">
-                                <span className="text-xs text-white/40">Faktor (auf GKI)</span>
-                                <span className="text-xs text-white font-mono">~3,9x</span>
-                             </div>
-                             <div className="flex justify-between items-center">
-                                <span className="text-xs text-white/40">Anteil GKI</span>
-                                <span className="text-xs text-white font-mono">~25,6%</span>
-                             </div>
-                        </div>
+                        <a 
+                            href="mailto:qnl@baugrundstueck-meerbusch.de"
+                            className="w-full py-3 rounded-lg border border-white/10 bg-white/5 hover:bg-[#C5A028] hover:text-black hover:border-[#C5A028] transition-all flex items-center justify-center gap-3 group"
+                        >
+                            <Mail className="w-4 h-4 text-[#C5A028] group-hover:text-black transition-colors" />
+                            <span className="text-[10px] uppercase tracking-widest font-bold">E-Mail senden</span>
+                        </a>
                     </div>
                 </div>
 

@@ -5,6 +5,7 @@ import {
   X,
   ArrowUpRight,
   Phone,
+  Mail,
 } from "lucide-react";
 
 type NavItem = {
@@ -14,6 +15,8 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
+  { href: "#home", label: "Intro", number: "01" },
+  { href: "#thesis", label: "Überblick", number: "02" },
   { href: "#mobility", label: "Mobilität", number: "03" },
   { href: "#tech", label: "Technik", number: "04" },
   { href: "#finance", label: "Kalkulation", number: "05" },
@@ -163,13 +166,13 @@ const Navbar: React.FC = () => {
                   </div>
                 </button>
 
-                {/* Call Button - Next to Pill */}
+                {/* Call/Email Button - Next to Pill */}
                 <a
-                  href="tel:+49123456789"
+                  href="mailto:qnl@baugrundstueck-meerbusch.de"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-[#C5A028] text-black shadow-lg shadow-[#C5A028]/20 transition-transform active:scale-90"
-                  aria-label="Anrufen"
+                  aria-label="E-Mail schreiben"
                 >
-                  <Phone className="w-4 h-4" strokeWidth={2.5} />
+                  <Mail className="w-4 h-4" strokeWidth={2.5} />
                 </a>
               </div>
             </div>
@@ -228,8 +231,8 @@ const Navbar: React.FC = () => {
                </div>
 
                <div className="mt-8 pt-8 border-t border-white/5 grid grid-cols-2 gap-3 px-2">
-                 <a href="tel:+49123456789" className="flex items-center justify-center gap-2 py-4 bg-[#C5A028] text-black rounded-2xl text-[11px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A028]/20">
-                   <Phone className="w-3.5 h-3.5" /> Call
+                 <a href="mailto:qnl@baugrundstueck-meerbusch.de" className="flex items-center justify-center gap-2 py-4 bg-[#C5A028] text-black rounded-2xl text-[11px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A028]/20">
+                   <Mail className="w-3.5 h-3.5" /> E-Mail
                  </a>
                  <button onClick={() => setSheetOpen(false)} className="py-4 bg-white/5 text-white/80 rounded-2xl text-[11px] font-bold uppercase tracking-widest border border-white/10">
                    Schließen

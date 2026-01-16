@@ -44,7 +44,7 @@ const Thesis: React.FC = () => {
   };
 
   return (
-    <section className="relative -mt-2 pt-24 md:pt-[340px] lg:pt-[220px] pb-24 md:pb-40 bg-[#050505] overflow-hidden z-10">
+    <section id="thesis" className="relative -mt-2 pt-24 md:pt-[340px] lg:pt-[220px] pb-24 md:pb-40 bg-[#050505] overflow-hidden z-10">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/4 w-1/2 h-full bg-[#C5A028]/5 blur-[160px] pointer-events-none opacity-40" />
         
